@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
 
+import 'Pages/categories.dart';
 import 'Pages/create_acc.dart';
+import 'Pages/details.dart';
 import 'Pages/forgot_pass.dart';
+import 'Pages/forgot_pass2.dart';
 import 'Pages/home.dart';
 import 'Pages/login.dart';
 
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Projem',
-      home: ForgotPassword(),
+      home: Details(),
     );
   }
 }

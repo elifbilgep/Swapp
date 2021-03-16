@@ -28,6 +28,7 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                   buildTextFormFields(context),
                   buildSignUpButton(context),
+                  buildGoogle(context),
                 ],
               ),
             ),
@@ -210,6 +211,18 @@ class _CreateAccState extends State<CreateAcc> {
             Text("Sign Up", style: Theme.of(context).textTheme.bodyText2)
           ],
         ),
+      ),
+    );
+  }
+
+  buildGoogle(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Google", style: Theme.of(context).textTheme.bodyText2)
+        ],
       ),
     );
   }

@@ -19,6 +19,7 @@ class LoginPage extends StatelessWidget {
                   buildPicture(),
                   buildInputs(context),
                   buildSignInButton(context),
+                  buildGoogleButton(context),
                   buildCreateAccButton(context),
                 ],
               ),
@@ -176,6 +177,18 @@ class LoginPage extends StatelessWidget {
                 .bodyText2
                 .copyWith(decoration: TextDecoration.underline),
           )
+        ],
+      ),
+    );
+  }
+
+  buildGoogleButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Goog  le", style: Theme.of(context).textTheme.bodyText2)
         ],
       ),
     );

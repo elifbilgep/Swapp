@@ -16,7 +16,20 @@ var catogeriesLinear = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight);
 
-var categoriesTextColor =
-    Color(0xFF474763); //ikonRengi ve arkaplan rengi her sayfanın
+var allBgColor = Color(0xFF474763); //ikonRengi ve arkaplan rengi her sayfanın
+
 var darkHeaderColor = Color(0xFF272735); //most seen in rengi
+
+var darkColor2 = Color(0xFF5F5F6D);
+
 var lightColor = Color(0xFFD5D5D5);
+
+var lightColor2 = Color(0xFF878797);
+
+
+
+var darkColor = Color(0xFF606078);
+LinearGradient categoriesGradient = LinearGradient(
+    colors: [lightColor, darkColor],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight);

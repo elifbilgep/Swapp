@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
 
 class Home extends StatefulWidget {
@@ -14,7 +15,7 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xFF1f1f29),
+        backgroundColor: allBgColor,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -23,9 +24,14 @@ class _HomeState extends State<Home> {
                 children: [
                   buildHeader(),
                   buildSearchBar(size),
+                  SizedBox(
+                    height: 25,
+                  ),
                   buildCategories(size),
+                  SizedBox(
+                    height: 20,
+                  ),
                   buildWhiteSpace(size),
-                  buildHeader2(),
                 ],
               ),
             ),
@@ -39,27 +45,44 @@ class _HomeState extends State<Home> {
   Widget buildBottomNavBar(Size size) {
     return Positioned(
       child: Container(
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade400,
-                spreadRadius: 1,
-                blurRadius: 10,
-                offset: Offset(0, 3),
-              )
-            ],
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.grey.shade300),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade800,
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(0, 3),
+          )
+        ], borderRadius: BorderRadius.circular(20), color: lightColor2),
         height: size.height * 0.1,
         width: size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Icon(Icons.home),
-            Icon(Icons.menu_outlined),
-            Icon(Icons.publish),
-            Icon(Icons.message),
-            Icon(Icons.person)
+            Icon(
+              Icons.home,
+              size: 25,
+              color: lightColor,
+            ),
+            Icon(
+              Icons.menu_outlined,
+              size: 25,
+              color: lightColor,
+            ),
+            Icon(
+              Icons.add,
+              size: 50,
+              color: lightColor,
+            ),
+            Icon(
+              Icons.messenger_sharp,
+              size: 20,
+              color: lightColor,
+            ),
+            Icon(
+              Icons.person,
+              size: 25,
+              color: lightColor,
+            )
           ],
         ),
       ),
@@ -74,11 +97,11 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.only(left: 15.0, top: 20),
       child: Row(
         children: [
-          Text(
-            "Start to Swap!",
-            style: TextStyle(
-                fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-          )
+          Text("Lets Swap!",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline2
+                  .copyWith(fontSize: 26, color: lightColor))
         ],
       ),
     );
@@ -88,22 +111,23 @@ class _HomeState extends State<Home> {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
       child: Container(
-        height: 80,
+        height: 50,
         width: size.width,
         child: Form(
           child: TextFormField(
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0),
               prefixIcon: Icon(
                 Icons.search,
                 size: 30,
                 color: Color(0xFF53536b),
               ),
               filled: true,
-              fillColor: Color(0xff33334f),
-              hintText: "Search",
-              hintStyle: TextStyle(color: Color(0xFF53536b), fontSize: 20),
+              fillColor: lightColor2,
+              hintText: "Start",
+              hintStyle: TextStyle(color: lightColor, fontSize: 20),
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff33334f)),
+                borderSide: BorderSide.none,
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
@@ -119,7 +143,7 @@ class _HomeState extends State<Home> {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Container(
-        height: 80,
+        height: 100,
         width: size.width,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -129,19 +153,26 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      gradient: gradient,
-                      borderRadius: BorderRadius.circular(20)),
-                  width: 100,
+                      gradient: categoriesGradient,
+                      borderRadius: BorderRadius.circular(30)),
+                  width: 110,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(icons[index], size: 35),
+                      Icon(
+                        icons[index],
+                        size: 35,
+                        color: allBgColor,
+                      ),
                       SizedBox(
                         height: 5,
                       ),
                       Text(
                         cateogires[index],
-                        style: TextStyle(color: Colors.grey.shade300),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(fontSize: 16),
                       )
                     ],
                   ),
@@ -158,7 +189,7 @@ class _HomeState extends State<Home> {
       child: Row(
         children: [
           Text(
-            "Best Swapers",
+            "Most Seen",
             style: TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           )
@@ -171,22 +202,174 @@ class _HomeState extends State<Home> {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
       child: Container(
-        height: size.height * 3,
+        height: 3000,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
+            buildLine(),
             buildHeader2(),
-            buildBestSwapers(),
+            buildMostSeenCategories(),
+            buildheader3(),
+            buildMostRecentCategories()
           ],
         ),
       ),
     );
   }
 
-  buildBestSwapers() {
-    return Column();
+  buildLine() {
+    return Divider(
+      color: darkColor,
+      height: 5,
+      thickness: 4,
+      indent: 150,
+      endIndent: 150,
+    );
+  }
+
+  buildMostSeenCategories() {
+    return Container(
+      height: 180,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: mostSeenPhotos.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 15.0, top: 15),
+              child: Stack(
+                overflow: Overflow.visible,
+                children: [
+                  Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                    height: 150,
+                    width: 250,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(
+                        mostSeenPhotos[index],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 120,
+                    left: 160,
+                    child: Container(
+                      height: 40,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: darkColor2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.remove_red_eye,
+                            color: darkHeaderColor,
+                          ),
+                          Text(
+                            mostSeenWatches[index].toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(color: darkHeaderColor),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }),
+    );
+  }
+
+  buildMostRecentCategories() {
+    return Container(
+      height: 1000,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: mostRecentPhotos.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 15.0, top: 15, right: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    overflow: Overflow.visible,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30)),
+                        height: 300,
+                        width: 400,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Image.network(
+                            mostRecentPhotos[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 270,
+                        left: 280,
+                        child: Container(
+                          height: 40,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: darkColor2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.remove_red_eye,
+                                color: darkHeaderColor,
+                              ),
+                              Text(
+                                mostRecentWatches[index].toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(color: darkHeaderColor),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }),
+    );
+  }
+
+  buildheader3() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0, left: 20),
+      child: Row(
+        children: [
+          Text(
+            "Most Recent",
+            style: TextStyle(
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+    );
   }
 }
