@@ -6,7 +6,7 @@ class ResetPassword2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: darkHeaderColor,
+          color: darkHeaderColor,
           image: DecorationImage(
               image: AssetImage("assets/images/resetPassword.png"))),
       child: Scaffold(
@@ -23,7 +23,7 @@ class ResetPassword2 extends StatelessWidget {
 
   buildHeader(BuildContext context) {
     return Container(
-      height: 150,
+      height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

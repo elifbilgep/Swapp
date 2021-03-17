@@ -22,7 +22,7 @@ class Details extends StatelessWidget {
   buildHeader(BuildContext context) {
     return Container(
       color: darkHeaderColor,
-      height: 120,
+      height: 100,
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
