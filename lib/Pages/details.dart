@@ -8,6 +8,7 @@ class Details extends StatelessWidget {
     return Scaffold(
       backgroundColor: allBgColor,
       body: Stack(
+        fit: StackFit.expand,
         children: [
           Column(
             children: [buildHeader(context), buildCards(context)],
