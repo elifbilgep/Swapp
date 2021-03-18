@@ -163,7 +163,11 @@ class Profile extends StatelessWidget {
               BoxShadow(
                   color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
             ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(child: Text("Show my Swapies")),
+            child: Center(
+                child: Text(
+              "Show my Swapies",
+              style: Theme.of(context).textTheme.bodyText1,
+            )),
           ),
           Container(
             height: 50,
@@ -172,7 +176,11 @@ class Profile extends StatelessWidget {
               BoxShadow(
                   color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
             ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(child: Text("Last Swapies")),
+            child: Center(
+                child: Text(
+              "Last Swapies",
+              style: Theme.of(context).textTheme.bodyText1,
+            )),
           ),
           Container(
             height: 50,
@@ -181,7 +189,11 @@ class Profile extends StatelessWidget {
               BoxShadow(
                   color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
             ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(child: Text("Account Settings")),
+            child: Center(
+                child: Text(
+              "Account Settings",
+              style: Theme.of(context).textTheme.bodyText1,
+            )),
           ),
         ],
       ),

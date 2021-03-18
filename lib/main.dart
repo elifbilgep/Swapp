@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Projem',
-      home: AccountSettings(),
+      home: ResetPassword2(),
     );
   }
 }
