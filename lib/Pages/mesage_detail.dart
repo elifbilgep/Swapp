@@ -13,6 +13,14 @@ class MessageDetail extends StatelessWidget {
             Column(
               children: [
                 buildHeader(context),
+                Container(
+                  height: 400,
+                  child: ListView(
+                    children: [
+                      buildMessage(context),
+                    ],
+                  ),
+                )
               ],
             ),
             buildMessageBox(context),
@@ -104,6 +112,9 @@ class MessageDetail extends StatelessWidget {
         color: darkColor,
         child: Row(
           children: [
+            SizedBox(
+              width: 5,
+            ),
             Icon(
               Icons.camera_alt,
               color: darkHeaderColor,
@@ -134,6 +145,75 @@ class MessageDetail extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  buildMessage(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0, top: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.6),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  )
+                ]),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
+                    "https://i.pinimg.com/564x/51/98/18/519818ac43ff0f69a0a968da5d5465e4.jpg",
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), color: lightColor),
+                alignment: Alignment.topLeft,
+                height: 45,
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Center(
+                      child: Text(
+                        "Hi :) ",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 150.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "20.35",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: 15),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

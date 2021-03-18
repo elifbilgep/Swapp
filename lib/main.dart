@@ -11,6 +11,7 @@ import 'Pages/forgot_pass2.dart';
 import 'Pages/home.dart';
 import 'Pages/login.dart';
 import 'Pages/mesage_detail.dart';
+import 'Pages/mySwapies.dart';
 import 'Pages/profile.dart';
 import 'Pages/swap_it.dart';
 
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
               fontSize: 22, fontFamily: "Comfortaa", color: darkHeaderColor),
           headline5: TextStyle(
               fontSize: 20, fontFamily: "Comfortaa", color: lightTextColor),
+          headline6: TextStyle(
+              fontSize: 16, fontFamily: "Comfortaa", color: darkHeaderColor),
           bodyText1: TextStyle(
               fontSize: 16, fontFamily: "Comfortaa", color: lightTextColor),
           bodyText2: TextStyle(
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Projem',
-      home: AddSwapie(),
+      home: MySwapies(),
     );
   }
 }

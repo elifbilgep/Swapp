@@ -8,15 +8,16 @@ class SwapPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: allBgColor,
         body: Stack(
-          fit: StackFit.expand,
           children: [
             Column(
               children: [
                 buildHeader(context),
                 buildCard(context),
+                buildCard(context),
               ],
             ),
             buildBottomNavBar(context),
+            buildSwapButton(context),
           ],
         ),
       ),
@@ -100,7 +101,7 @@ class SwapPage extends StatelessWidget {
 
   buildCard(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(top: 5.0, left: 15, right: 15),
       child: Container(
         height: 250,
         width: 450,
@@ -108,17 +109,152 @@ class SwapPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           color: lightColor,
         ),
-        child: Row(
-          children: [
-            Image.network(
-              "https://images.gardrops.com/uploads/2351209/user_items/23512097-s4-file-6031053d52ea3.jpeg",
-              fit: BoxFit.cover,
-              height: 150,
-            ),
-            Column(
-              children: [],
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      "https://images.gardrops.com/uploads/2351209/user_items/23512097-s4-file-6031053d52ea3.jpeg",
+                      fit: BoxFit.cover,
+                      height: 150,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 240,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Tshirt",
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
+                                Icon(Icons.more_vert)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.checkroom,
+                                  color: darkHeaderColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Books",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(color: darkHeaderColor),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.attach_money,
+                                  color: darkHeaderColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "200-300",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(color: darkHeaderColor),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: darkHeaderColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Muğla",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(color: darkHeaderColor),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 70,
+                  width: 270,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "About:",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      Text("I have wear it only 2 times",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: darkHeaderColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w100))
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  buildSwapButton(context) {
+    return Positioned(
+      top: MediaQuery.of(context).size.height / 2.1,
+      left: MediaQuery.of(context).size.height / 4,
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(color: lightColor2, shape: BoxShape.circle),
+        child: Center(
+          child: Icon(
+            Icons.swap_vert,
+            size: 35,
+            color: lightColor,
+          ),
         ),
       ),
     );
