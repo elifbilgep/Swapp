@@ -10,7 +10,9 @@ import 'Pages/forgot_pass.dart';
 import 'Pages/forgot_pass2.dart';
 import 'Pages/home.dart';
 import 'Pages/login.dart';
+import 'Pages/mesage_detail.dart';
 import 'Pages/profile.dart';
+import 'Pages/swap_it.dart';
 
 void main() => runApp(MyApp());
 
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Projem',
-      home: Messages(),
+      home: AddSwapie(),
     );
   }
 }
