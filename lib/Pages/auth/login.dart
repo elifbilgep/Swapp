@@ -15,6 +15,9 @@ class LoginPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
                   buildHeader(context),
                   buildPicture(),
                   buildInputs(context),
@@ -166,7 +169,7 @@ class LoginPage extends StatelessWidget {
 
   Widget buildCreateAccButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -184,11 +187,11 @@ class LoginPage extends StatelessWidget {
 
   buildGoogleButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Goog  le", style: Theme.of(context).textTheme.bodyText2)
+          Text("Google", style: Theme.of(context).textTheme.bodyText2)
         ],
       ),
     );

@@ -17,20 +17,20 @@ class _CreateAccState extends State<CreateAcc> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  buildHeader(context),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  buildTextFormFields(context),
-                  buildSignUpButton(context),
-                  buildGoogle(context),
-                ],
-              ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                buildHeader(context),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                buildTextFormFields(context),
+                buildSignUpButton(context),
+                buildGoogle(context),
+              ],
             ),
           ),
         ),
@@ -175,20 +175,26 @@ class _CreateAccState extends State<CreateAcc> {
           SizedBox(
             height: 25,
           ),
-          CheckboxListTile(
-            contentPadding: EdgeInsets.all(0),
-            controlAffinity: ListTileControlAffinity.leading,
-            checkColor: darkHeaderColor,
-            activeColor: lightColor,
-            value: checked,
-            onChanged: (newValue) {
-              setState(() {
-                checked = newValue;
-              });
-            },
-            title: Text(
-              "I have readed all the terms and accept",
-              style: Theme.of(context).textTheme.bodyText1,
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: CheckboxListTile(
+              contentPadding: EdgeInsets.all(0),
+              controlAffinity: ListTileControlAffinity.leading,
+              checkColor: darkHeaderColor,
+              activeColor: lightColor,
+              value: checked,
+              onChanged: (newValue) {
+                setState(() {
+                  checked = newValue;
+                });
+              },
+              title: Text(
+                "I have readed all the terms and accept",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontSize: 15),
+              ),
             ),
           )
         ],

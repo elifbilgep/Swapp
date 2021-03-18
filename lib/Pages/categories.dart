@@ -38,7 +38,7 @@ class Categories extends StatelessWidget {
               ),
               onPressed: null),
           Text(
-            "Forgot My Password",
+            "Categories",
             style: Theme.of(context).textTheme.headline2,
           ),
         ],
@@ -47,7 +47,8 @@ class Categories extends StatelessWidget {
   }
 
   buildCategories(BuildContext context) {
-    return Expanded(
+    return Container(
+      height: 700,
       child: GridView.builder(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
