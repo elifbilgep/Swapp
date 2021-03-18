@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
 
-import '../lists.dart';
+import '../../lists.dart';
 
-class MySwapies extends StatelessWidget {
+class Swapped extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,7 +45,7 @@ class MySwapies extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Text(
-              "My Swaipes",
+              "Swapped",
               style: Theme.of(context).textTheme.headline3,
             ),
           ],

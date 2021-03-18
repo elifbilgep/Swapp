@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../const.dart';
+import '../../const.dart';
 
 class CreateAcc extends StatefulWidget {
   @override

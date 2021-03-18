@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:takas/Pages/messages.dart';
+import 'package:takas/Pages/message/messages.dart';
 import 'package:takas/const.dart';
 
-import 'Pages/add_swapie.dart';
+import 'Pages/auth/acc_settings.dart';
+import 'Pages/swapies/add_swapie.dart';
 import 'Pages/categories.dart';
-import 'Pages/create_acc.dart';
-import 'Pages/details.dart';
-import 'Pages/forgot_pass.dart';
-import 'Pages/forgot_pass2.dart';
+import 'Pages/auth/create_acc.dart';
+import 'Pages/message/details.dart';
+import 'Pages/auth/forgot_pass.dart';
+import 'Pages/auth/forgot_pass2.dart';
 import 'Pages/home.dart';
-import 'Pages/login.dart';
-import 'Pages/mesage_detail.dart';
-import 'Pages/mySwapies.dart';
-import 'Pages/profile.dart';
-import 'Pages/swap_it.dart';
+import 'Pages/auth/login.dart';
+import 'Pages/message/mesage_detail.dart';
+import 'Pages/swapies/mySwapies.dart';
+import 'Pages/auth/profile.dart';
+import 'Pages/swapies/swap_it.dart';
+import 'Pages/swapies/swapped_swapies.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Projem',
-      home: MySwapies(),
+      home: AccountSettings(),
     );
   }
 }
