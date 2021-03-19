@@ -6,7 +6,7 @@ import 'Pages/auth/acc_settings.dart';
 import 'Pages/swapies/add_swapie.dart';
 import 'Pages/categories.dart';
 import 'Pages/auth/create_acc.dart';
-import 'Pages/message/details.dart';
+import 'Pages/swapies/details.dart';
 import 'Pages/auth/forgot_pass.dart';
 import 'Pages/auth/forgot_pass2.dart';
 import 'Pages/home.dart';
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Projem',
-      home: MessageDetail(),
+      home: Profile(),
     );
   }
 }

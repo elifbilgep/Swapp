@@ -8,7 +8,26 @@ class CreateAcc extends StatefulWidget {
 }
 
 class _CreateAccState extends State<CreateAcc> {
+  List<DropdownMenuItem<String>> menuItems = List();
   var checked = false;
+  String value1 = "Country";
+  bool disableddropDown = true;
+
+  final turkey = {
+    "1": "İzmir",
+    "2": "Ankara",
+    "3": "İstanbul",
+  };
+  final america = {
+    "1": "Georgia",
+    "2": "Hawaii",
+    "3": "Minnesota",
+  };
+  final england = {
+    "1": "Bristol",
+    "2": "London",
+    "3": "Oxford",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +194,53 @@ class _CreateAccState extends State<CreateAcc> {
           SizedBox(
             height: 25,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DropdownButton<String>(
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: darkColor),
+                hint: Text(value1),
+                items: [
+                  DropdownMenuItem<String>(
+                    value: "Turkey",
+                    child: Text(
+                      "Turkey",
+                    ),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: "America",
+                    child: Text("America"),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: "England",
+                    child: Text("England"),
+                  ),
+                ],
+                onChanged: (_value) {
+                  selected(_value);
+                },
+              ),
+              DropdownButton<String>(
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: darkColor),
+                hint: Text("City"),
+                items: menuItems,
+                onChanged: disableddropDown
+                    ? null
+                    : (_value) {
+                        setState(() {
+                          value1 = _value;
+                        });
+                      },
+                disabledHint: Text("Choose a country"),
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: CheckboxListTile(
@@ -189,7 +255,7 @@ class _CreateAccState extends State<CreateAcc> {
                 });
               },
               title: Text(
-                "I have readed all the terms and accept",
+                "I have read all the terms and accept",
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
@@ -231,5 +297,55 @@ class _CreateAccState extends State<CreateAcc> {
         ],
       ),
     );
+  }
+
+  void populateTurkey() {
+    for (String key in turkey.keys) {
+      menuItems.add(DropdownMenuItem<String>(
+        child: Center(
+          child: Text(turkey[key]),
+        ),
+        value: turkey[key],
+      ));
+    }
+  }
+
+  void populateAmerica() {
+    for (String key in america.keys) {
+      menuItems.add(DropdownMenuItem<String>(
+        child: Center(
+          child: Text(america[key]),
+        ),
+        value: america[key],
+      ));
+    }
+  }
+
+  void populateEngland() {
+    for (String key in england.keys) {
+      menuItems.add(DropdownMenuItem<String>(
+        child: Center(
+          child: Text(england[key]),
+        ),
+        value: england[key],
+      ));
+    }
+  }
+
+  void selected(String _value) {
+    if (_value == "Turkey") {
+      menuItems = [];
+      populateTurkey();
+    } else if (_value == "America") {
+      menuItems = [];
+      populateAmerica();
+    } else if (_value == "England") {
+      menuItems = [];
+      populateEngland();
+    }
+    setState(() {
+      value1 = _value;
+      disableddropDown = false;
+    });
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
 
+import '../../lists.dart';
+
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,12 +13,14 @@ class Profile extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Column(
-                children: [
-                  buildHeader(context),
-                  buildUserPhotoAndInfo(context),
-                  buildButtons(context)
-                ],
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    buildHeader(context),
+                    buildUserPhotoAndInfo(context),
+                    buildSwapies(context)
+                  ],
+                ),
               ),
               buildBottomNavBar(context),
             ],
@@ -43,6 +47,13 @@ class Profile extends StatelessWidget {
               "Profile",
               style: Theme.of(context).textTheme.headline3,
             ),
+            SizedBox(
+              width: 200,
+            ),
+            Icon(
+              Icons.settings,
+              color: lightColor,
+            )
           ],
         ),
       ),
@@ -51,7 +62,7 @@ class Profile extends StatelessWidget {
 
   buildUserPhotoAndInfo(BuildContext context) {
     return Container(
-      height: 200,
+      height: 220,
       width: 200,
       child: Column(
         children: [
@@ -69,11 +80,21 @@ class Profile extends StatelessWidget {
             ),
           ),
           Text(
+            "duba",
+            style: Theme.of(context).textTheme.headline1.copyWith(
+                  fontSize: 25,
+                  color: lightColor,
+                ),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          Text(
             "Tuğba Yılmaz",
             style: Theme.of(context)
                 .textTheme
-                .headline1
-                .copyWith(fontSize: 22, color: lightColor),
+                .headline6
+                .copyWith(fontSize: 20, color: lightColor),
           ),
           SizedBox(
             height: 3,
@@ -86,7 +107,7 @@ class Profile extends StatelessWidget {
                 color: darkHeaderColor,
                 size: 30,
               ),
-              Text("Gebze",
+              Text("Turkey,Izmır",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -149,54 +170,62 @@ class Profile extends StatelessWidget {
     );
   }
 
-  buildButtons(BuildContext context) {
+  buildSwapies(BuildContext context) {
     return Container(
-      height: 200,
-      width: 350,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            height: 50,
-            width: 350,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
-            ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(
-                child: Text(
-              "Show my Swapies",
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
+      height: mostRecentPhotos.length.toDouble() * 170,
+      child: GridView.builder(
+          scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 300,
+            childAspectRatio: 0.75,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 20,
           ),
-          Container(
-            height: 50,
-            width: 350,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
-            ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(
-                child: Text(
-              "Last Swapies",
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
-          ),
-          Container(
-            height: 50,
-            width: 350,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
-            ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(
-                child: Text(
-              "Account Settings",
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
-          ),
-        ],
-      ),
+          itemCount: mostRecentPhotos.length,
+          itemBuilder: (context, index) {
+            return Center(
+              child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(
+                        mostRecentPhotos[index],
+                        height: 250,
+                        width: 170,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: darkColor2,
+                              borderRadius: BorderRadius.circular(20)),
+                          height: 50,
+                          width: 130,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${clothingPrices[index]}",
+                                style: Theme.of(context).textTheme.headline4,
+                              ),
+                              Icon(Icons.attach_money)
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 }

@@ -201,23 +201,24 @@ class _HomeState extends State<Home> {
   buildWhiteSpace(Size size) {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
-      child: Container(
-        height: 3000,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            buildLine(),
-            buildHeader2(),
-            buildMostSeenCategories(),
-            buildheader3(),
-            buildMostRecentCategories()
-          ],
+      child: Expanded(
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              buildLine(),
+              buildHeader2(),
+              buildMostSeenCategories(),
+              buildheader3(),
+              buildMostRecent2()
+            ],
+          ),
         ),
       ),
     );
@@ -235,7 +236,7 @@ class _HomeState extends State<Home> {
 
   buildMostSeenCategories() {
     return Container(
-      height: 180,
+      height: 210,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -247,10 +248,10 @@ class _HomeState extends State<Home> {
                 overflow: Overflow.visible,
                 children: [
                   Container(
+                    height: 200,
+                    width: 150,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                    height: 150,
-                    width: 250,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: Image.network(
@@ -260,8 +261,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Positioned(
-                    top: 120,
-                    left: 160,
+                    top: 155,
+                    left: 60,
                     child: Container(
                       height: 40,
                       width: 100,
@@ -293,65 +294,59 @@ class _HomeState extends State<Home> {
     );
   }
 
-  buildMostRecentCategories() {
+  buildMostRecent2() {
     return Container(
-      height: 1000,
-      width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
+      height: mostRecentPhotos.length / 2 * 500,
+      child: GridView.builder(
+          scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 300,
+            childAspectRatio: 0.75,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 20,
+          ),
           itemCount: mostRecentPhotos.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 15.0, top: 15, right: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    overflow: Overflow.visible,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30)),
-                        height: 300,
-                        width: 400,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: Image.network(
-                            mostRecentPhotos[index],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+            return Center(
+              child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(
+                        mostRecentPhotos[index],
+                        height: 250,
+                        width: 170,
+                        fit: BoxFit.cover,
                       ),
-                      Positioned(
-                        top: 270,
-                        left: 280,
+                    ),
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
                         child: Container(
-                          height: 40,
-                          width: 100,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: darkColor2),
+                              color: darkColor2,
+                              borderRadius: BorderRadius.circular(20)),
+                          height: 50,
+                          width: 130,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.remove_red_eye,
-                                color: darkHeaderColor,
-                              ),
                               Text(
-                                mostRecentWatches[index].toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .copyWith(color: darkHeaderColor),
-                              )
+                                "${clothingPrices[index]}",
+                                style: Theme.of(context).textTheme.headline4,
+                              ),
+                              Icon(Icons.attach_money)
                             ],
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           }),
@@ -360,13 +355,13 @@ class _HomeState extends State<Home> {
 
   buildheader3() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, left: 20),
+      padding: const EdgeInsets.only(top: 20.0, left: 20, bottom: 10),
       child: Row(
         children: [
           Text(
             "Most Recent",
             style: TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           )
         ],
       ),
