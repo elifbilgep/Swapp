@@ -452,7 +452,7 @@ class _CreateAccState extends State<CreateAcc> {
             city: givenCity,
             country: givenCountry,
             photoUrl: user.photoUrl,
-            nameAndLastName: user.nameLastName);
+            nameAndLastName: givenNameAndSurname);
       }
       setState(() {
         loading = true;

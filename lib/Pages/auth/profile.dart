@@ -10,20 +10,14 @@ class Profile extends StatelessWidget {
       child: Scaffold(
         backgroundColor: allBgColor,
         body: Center(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    buildHeader(context),
-                    buildUserPhotoAndInfo(context),
-                    buildSwapies(context)
-                  ],
-                ),
-              ),
-              buildBottomNavBar(context),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                buildHeader(context),
+                buildUserPhotoAndInfo(context),
+                buildSwapies(context)
+              ],
+            ),
           ),
         ),
       ),
@@ -116,57 +110,6 @@ class Profile extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget buildBottomNavBar(context) {
-    Size size = MediaQuery.of(context).size;
-    return Positioned(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade800,
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: Offset(0, 3),
-          )
-        ], borderRadius: BorderRadius.circular(20), color: lightColor2),
-        height: size.height * 0.1,
-        width: size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(
-              Icons.home,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.menu_outlined,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.add,
-              size: 50,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.messenger_sharp,
-              size: 20,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.person,
-              size: 25,
-              color: lightColor,
-            )
-          ],
-        ),
-      ),
-      left: 15,
-      bottom: 10,
-      right: 15,
     );
   }
 

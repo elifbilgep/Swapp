@@ -279,6 +279,7 @@ class _LoginPageState extends State<LoginPage> {
   void _googleSign() {
     var _authService = Provider.of<Authorization>(context, listen: false);
     try {
+    
       _authService.signinWithGoogle();
     } catch (hata) {
       print("Hata:" + hata.toString());

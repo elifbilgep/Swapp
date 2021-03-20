@@ -7,68 +7,12 @@ class Messages extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: allBgColor,
-        body: Stack(
-          children: [
-            Center(
-              child: Column(
-                children: [buildHeader(context), buildPersonCard(context)],
-              ),
-            ),
-            buildBottomNavBar(context),
-          ],
+        body: Center(
+          child: Column(
+            children: [buildHeader(context), buildPersonCard(context)],
+          ),
         ),
       ),
-    );
-  }
-
-  Widget buildBottomNavBar(context) {
-    Size size = MediaQuery.of(context).size;
-    return Positioned(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade800,
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: Offset(0, 3),
-          )
-        ], borderRadius: BorderRadius.circular(20), color: lightColor2),
-        height: size.height * 0.1,
-        width: size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(
-              Icons.home,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.menu_outlined,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.add,
-              size: 50,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.messenger_sharp,
-              size: 20,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.person,
-              size: 25,
-              color: lightColor,
-            )
-          ],
-        ),
-      ),
-      left: 15,
-      bottom: 10,
-      right: 15,
     );
   }
 
@@ -164,8 +108,10 @@ class Messages extends StatelessWidget {
                               width: 10,
                             ),
                             Container(
+                              height: 100,
+                              width: 180,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
                                     child: ClipRRect(
@@ -190,8 +136,6 @@ class Messages extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              height: 110,
-                              width: 200,
                             ),
                           ],
                         ),

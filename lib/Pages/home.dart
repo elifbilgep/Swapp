@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:takas/Pages/auth/profile.dart';
+import 'package:takas/Pages/categories.dart';
+import 'package:takas/Pages/message/messages.dart';
+import 'package:takas/Pages/swapies/add_swapie.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
 import 'package:takas/services/authorization.dart';
@@ -10,36 +14,53 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Size size;
+  int _activePageNo = 0;
+  PageController pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    pageController = PageController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: allBgColor,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  buildHeader(),
-                  buildSearchBar(size),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  buildCategories(size),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  buildWhiteSpace(size),
-                ],
-              ),
-            ),
-            buildBottomNavBar(size),
-          ],
-        ),
+          bottomNavigationBar: bottomNavBar(context),
+          resizeToAvoidBottomInset: false,
+          backgroundColor: allBgColor,
+          body: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: pageController,
+            children: [
+              buildHomePage(size),
+              Categories(),
+              AddSwapie(),
+              Messages(),
+              Profile()
+            ],
+          )),
+    );
+  }
+
+  SingleChildScrollView buildHomePage(Size size) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          buildHeader(),
+          buildSearchBar(size),
+          SizedBox(
+            height: 25,
+          ),
+          buildCategories(size),
+          SizedBox(
+            height: 20,
+          ),
+          buildWhiteSpace(size),
+        ],
       ),
     );
   }
@@ -366,6 +387,35 @@ class _HomeState extends State<Home> {
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           )
         ],
+      ),
+    );
+  }
+
+  bottomNavBar(BuildContext context) {
+    return SizedBox(
+      height: 70,
+      child: Theme(
+        data: Theme.of(context).copyWith(canvasColor: lightColor2),
+        child: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.menu), label: "Categories"),
+            BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Swapie"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message_rounded), label: "Messages"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          ],
+          onTap: (choosenPageNo) {
+            setState(() {
+              _activePageNo = choosenPageNo;
+              pageController.jumpToPage(choosenPageNo);
+            });
+          },
+          currentIndex: _activePageNo,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey.shade400,
+        ),
       ),
     );
   }
