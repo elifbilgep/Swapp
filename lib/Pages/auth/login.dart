@@ -1,29 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:takas/services/authorization.dart';
 
 import '../../const.dart';
+import 'create_acc.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool loading = false;
+  String email, password;
+  var errorMessage = "";
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(gradient: bgGarident),
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           backgroundColor: Colors.transparent,
           body: Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: SingleChildScrollView(
-              child: Column(
+              child: Stack(
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      buildHeader(context),
+                      buildInputs(context),
+                      buildSignInButton(context),
+                      buildGoogleButton(context),
+                      buildCreateAccButton(context),
+                    ],
                   ),
-                  buildHeader(context),
-                  buildPicture(),
-                  buildInputs(context),
-                  buildSignInButton(context),
-                  buildGoogleButton(context),
-                  buildCreateAccButton(context),
+                  _loadingAnimation(),
                 ],
               ),
             ),
@@ -34,36 +53,28 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget buildHeader(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Welcome To Swapp",
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Login to start swapping your items",
-              style: Theme.of(context).textTheme.headline5,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildPicture() {
     return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.all(10.0),
       child: Container(
-        width: 230,
-        child: Placeholder(
-          fallbackHeight: 150,
-          color: lightColor,
+        height: 200,
+        width: double.infinity,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Welcome To Swapp",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline1.copyWith(
+                    fontSize: 50,
+                    color: Colors.grey.shade200,
+                    fontWeight: FontWeight.normal),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -71,6 +82,7 @@ class LoginPage extends StatelessWidget {
 
   Widget buildInputs(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
           Container(
@@ -87,9 +99,12 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 TextFormField(
+                  validator: validatorEmail,
+                  keyboardType: TextInputType.emailAddress,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
                   decoration: InputDecoration(
+                      errorStyle: TextStyle(fontSize: 15, color: Colors.red),
                       contentPadding: EdgeInsets.only(left: 20),
                       filled: true,
                       fillColor: lightColor,
@@ -97,6 +112,7 @@ class LoginPage extends StatelessWidget {
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(20),
                       )),
+                  onSaved: (inputValue) => email = inputValue,
                 ),
               ],
             ),
@@ -115,9 +131,14 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 TextFormField(
+                  validator: (inputValue) {
+                    return validatorPassword(inputValue);
+                  },
+                  obscureText: true,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
                   decoration: InputDecoration(
+                    errorStyle: TextStyle(fontSize: 15, color: Colors.red),
                     contentPadding: EdgeInsets.only(left: 20),
                     filled: true,
                     fillColor: lightColor,
@@ -126,9 +147,10 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+                  onSaved: (inputValue) => password = inputValue,
                 ),
                 SizedBox(
-                  height: 3,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -148,23 +170,57 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+  String validatorEmail(String inputValue) {
+    if (inputValue.isEmpty) {
+      return "E-mail must be given";
+    } else if (!inputValue.contains("@")) {
+      return "Give a validate email";
+    }
+    return null;
+  }
+
+  String validatorPassword(String inputValue) {
+    if (inputValue.isEmpty) {
+      return "Password can not be empty";
+    } else if (inputValue.length < 6) {
+      return "Password must be longer then 6 characters";
+    }
+    return null;
+  }
+
   Widget buildSignInButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 25.0),
-      child: Container(
-        height: 50,
-        width: 300,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: signAndCreateButtonColor),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Sign In", style: Theme.of(context).textTheme.bodyText2)
-          ],
+      child: GestureDetector(
+        onTap: login,
+        child: Container(
+          height: 50,
+          width: 300,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: signAndCreateButtonColor),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Sign In", style: Theme.of(context).textTheme.bodyText2)
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void login() async {
+    final _authService = Provider.of<Authorization>(context, listen: false);
+    var _formState = _formKey.currentState;
+    if (_formState.validate()) {
+      _formState.save();
+      setState(() {
+        loading = true;
+      });
+
+      await _authService.signInWithMail(email, password);
+    }
   }
 
   Widget buildCreateAccButton(BuildContext context) {
@@ -173,12 +229,18 @@ class LoginPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            "Create Account",
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2
-                .copyWith(decoration: TextDecoration.underline),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CreateAcc()));
+            },
+            child: Text(
+              "Create Account",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(decoration: TextDecoration.underline),
+            ),
           )
         ],
       ),
@@ -191,9 +253,39 @@ class LoginPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Google", style: Theme.of(context).textTheme.bodyText2)
+          GestureDetector(
+              onTap: _googleSign,
+              child:
+                  Text("Google", style: Theme.of(context).textTheme.bodyText2))
         ],
       ),
     );
+  }
+
+  Widget _loadingAnimation() {
+    if (loading) {
+      return Positioned.fill(
+          child: Align(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(
+          backgroundColor: darkHeaderColor,
+        ),
+      ));
+    } else {
+      return Center();
+    }
+  }
+
+  void _googleSign() {
+    var _authService = Provider.of<Authorization>(context, listen: false);
+    try {
+      _authService.signinWithGoogle();
+    } catch (hata) {
+      print("Hata:" + hata.toString());
+    }
+
+    setState(() {
+      loading = true;
+    });
   }
 }

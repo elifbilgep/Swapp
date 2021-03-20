@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
+import 'package:takas/services/authorization.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _HomeState extends State<Home> {
   Size size;
   @override
   Widget build(BuildContext context) {
+    
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -101,7 +103,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context)
                   .textTheme
                   .headline2
-                  .copyWith(fontSize: 26, color: lightColor))
+                  .copyWith(fontSize: 26, color: lightColor)),
         ],
       ),
     );

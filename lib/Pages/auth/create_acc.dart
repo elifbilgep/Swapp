@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:takas/services/authorization.dart';
+import 'package:takas/models/user.dart';
+import 'package:takas/services/firestore_service.dart';
 
 import '../../const.dart';
 
@@ -8,10 +12,22 @@ class CreateAcc extends StatefulWidget {
 }
 
 class _CreateAccState extends State<CreateAcc> {
+  String givenNameAndSurname,
+      givenUserName,
+      givenEmail,
+      givenPassword,
+      givenCountry = "",
+      givenCity = "";
+  String hintCountry = "Country";
+  String hintCity = "First Country";
   List<DropdownMenuItem<String>> menuItems = List();
   var checked = false;
-  String value1 = "Country";
+  String value1 = "";
+  String value2 = "";
   bool disableddropDown = true;
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool loading = false;
 
   final turkey = {
     "1": "İzmir",
@@ -35,20 +51,26 @@ class _CreateAccState extends State<CreateAcc> {
       decoration: BoxDecoration(gradient: bgGarident),
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
-            child: Column(
+            child: Stack(
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
+                Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    buildHeader(context),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    buildTextFormFields(context),
+                    buildSignUpButton(context),
+                    buildGoogle(context),
+                  ],
                 ),
-                buildHeader(context),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                buildTextFormFields(context),
-                buildSignUpButton(context),
-                buildGoogle(context),
+                _loadingAnimation()
               ],
             ),
           ),
@@ -71,10 +93,11 @@ class _CreateAccState extends State<CreateAcc> {
 
   buildTextFormFields(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
           Container(
-            width: 380,
+            width: 360,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -86,16 +109,21 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  validator: validatorNameSurname,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 20),
-                      filled: true,
-                      fillColor: lightColor,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(20),
-                      )),
+                    contentPadding: EdgeInsets.only(left: 20),
+                    filled: true,
+                    fillColor: lightColor,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onSaved: (inputValue) {
+                    givenNameAndSurname = inputValue;
+                  },
                 ),
               ],
             ),
@@ -104,7 +132,7 @@ class _CreateAccState extends State<CreateAcc> {
             height: 20,
           ),
           Container(
-            width: 380,
+            width: 360,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -116,16 +144,21 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  validator: validatorUserName,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 20),
-                      filled: true,
-                      fillColor: lightColor,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(20),
-                      )),
+                    contentPadding: EdgeInsets.only(left: 20),
+                    filled: true,
+                    fillColor: lightColor,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onSaved: (inputValue) {
+                    givenUserName = inputValue;
+                  },
                 ),
               ],
             ),
@@ -134,7 +167,7 @@ class _CreateAccState extends State<CreateAcc> {
             height: 20,
           ),
           Container(
-            width: 380,
+            width: 360,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -146,6 +179,8 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  validator: validatorEmail,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
                   decoration: InputDecoration(
@@ -156,6 +191,9 @@ class _CreateAccState extends State<CreateAcc> {
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(20),
                       )),
+                  onSaved: (inputValue) {
+                    givenEmail = inputValue;
+                  },
                 ),
               ],
             ),
@@ -164,7 +202,7 @@ class _CreateAccState extends State<CreateAcc> {
             height: 20,
           ),
           Container(
-            width: 380,
+            width: 360,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -176,6 +214,7 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  validator: validatorPassword,
                   obscureText: true,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
@@ -187,12 +226,15 @@ class _CreateAccState extends State<CreateAcc> {
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(20),
                       )),
+                  onSaved: (inputValue) {
+                    givenPassword = inputValue;
+                  },
                 ),
               ],
             ),
           ),
           SizedBox(
-            height: 25,
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -202,7 +244,7 @@ class _CreateAccState extends State<CreateAcc> {
                     .textTheme
                     .bodyText1
                     .copyWith(color: darkColor),
-                hint: Text(value1),
+                hint: Text(hintCountry),
                 items: [
                   DropdownMenuItem<String>(
                     value: "Turkey",
@@ -228,16 +270,17 @@ class _CreateAccState extends State<CreateAcc> {
                     .textTheme
                     .bodyText1
                     .copyWith(color: darkColor),
-                hint: Text("City"),
+                hint: Text(value2),
                 items: menuItems,
                 onChanged: disableddropDown
                     ? null
                     : (_value) {
                         setState(() {
-                          value1 = _value;
+                          hintCity = _value;
+                          value2 = _value;
                         });
                       },
-                disabledHint: Text("Choose a country"),
+                disabledHint: Text(hintCity),
               ),
             ],
           ),
@@ -271,17 +314,20 @@ class _CreateAccState extends State<CreateAcc> {
   buildSignUpButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
-      child: Container(
-        height: 50,
-        width: 300,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: signAndCreateButtonColor),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Sign Up", style: Theme.of(context).textTheme.bodyText2)
-          ],
+      child: GestureDetector(
+        onTap: _createUserFunction,
+        child: Container(
+          height: 50,
+          width: 300,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: signAndCreateButtonColor),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Sign Up", style: Theme.of(context).textTheme.bodyText2)
+            ],
+          ),
         ),
       ),
     );
@@ -289,11 +335,18 @@ class _CreateAccState extends State<CreateAcc> {
 
   buildGoogle(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.only(top: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Google", style: Theme.of(context).textTheme.bodyText2)
+          GestureDetector(
+            onTap: _googleSign,
+            child: Text("Google",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(decoration: TextDecoration.underline)),
+          )
         ],
       ),
     );
@@ -344,8 +397,117 @@ class _CreateAccState extends State<CreateAcc> {
       populateEngland();
     }
     setState(() {
+      hintCountry = _value;
       value1 = _value;
       disableddropDown = false;
     });
+  }
+
+  void _createUserFunction() async {
+    givenCountry = value1;
+    givenCity = value2;
+
+    final _authService = Provider.of<Authorization>(context, listen: false);
+    var _formState = _formKey.currentState;
+    if (_formState.validate()) {
+      _formState.save();
+
+      print(givenEmail);
+      setState(() {
+        loading = true;
+      });
+      try {
+        UserDetail user = await _authService.createUserWithMail(
+            givenEmail.trim(), givenPassword);
+        if (user != null) {
+          await FirestoreService().createUser(
+              id: user.id,
+              email: user.email,
+              userName: givenUserName,
+              city: givenCity,
+              country: givenCountry,
+              nameAndLastName: givenNameAndSurname);
+        }
+        Navigator.pop(context);
+      } catch (error) {
+        print("Hata:" + error.toString());
+      }
+    }
+  }
+
+  void _googleSign() async {
+    givenCountry = value1;
+    givenCity = value2;
+    if (givenCity.isEmpty && givenCountry.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(content: Text("Fill only your Country and City")));
+    } else {
+      var _authService = Provider.of<Authorization>(context, listen: false);
+      UserDetail user = await _authService.signinWithGoogle();
+      if (user != null) {
+        FirestoreService().createUser(
+            id: user.id,
+            email: user.email,
+            userName: user.userName,
+            city: givenCity,
+            country: givenCountry,
+            photoUrl: user.photoUrl,
+            nameAndLastName: user.nameLastName);
+      }
+      setState(() {
+        loading = true;
+      });
+    }
+  }
+
+  String validatorUserName(String inputValue) {
+    if (inputValue.isEmpty) {
+      return "Can not be empty";
+    } else if (inputValue.length < 6) {
+      return "Password must be lnger than 6 characters";
+    }
+    return null;
+  }
+
+  String validatorEmail(String inputValue) {
+    if (inputValue.isEmpty) {
+      return "E-mail must be given";
+    } else if (!inputValue.contains("@")) {
+      return "Give a validate email";
+    }
+    return null;
+  }
+
+  String validatorNameSurname(String inputValue) {
+    if (inputValue.isEmpty) {
+      return "Can not be empty";
+    } else if (inputValue.length < 4) {
+      return "Name and surname must be longer than 4";
+    }
+    return null;
+  }
+
+  String validatorPassword(String inputValue) {
+    if (inputValue.isEmpty) {
+      return "Password can not be empty";
+    } else if (inputValue.length < 6) {
+      return "Password must be longer then 6 characters";
+    }
+
+    return null;
+  }
+
+  Widget _loadingAnimation() {
+    if (loading) {
+      return Positioned.fill(
+          child: Align(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(
+          backgroundColor: darkHeaderColor,
+        ),
+      ));
+    } else {
+      return Center();
+    }
   }
 }

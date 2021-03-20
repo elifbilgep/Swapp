@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "193640085635",
+    "project_id": "swapp-77137",
+    "storage_bucket": "swapp-77137.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193640085635:android:5362e56ca3166664fdc3b6",
+        "android_client_info": {
+          "package_name": "com.example.swapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193640085635-96rskoacenvjmv0m7c41gjln7fvrl3d4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swapp",
+            "certificate_hash": "b09cedb3842065683efe9be0bbf76b80b8f57088"
+          }
+        },
+        {
+          "client_id": "193640085635-o9mulm42jonisb4r18honqohj3ppandg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH9IuW6skFKlxg6KXgslRYtL5thn3iaWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193640085635-o9mulm42jonisb4r18honqohj3ppandg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,38 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 
-class Kullanici {
-  
+class UserDetail {
   final String id;
-  final String kullaniciAdi;
-  final String fotoUrl;
+  final String userName;
+  final String nameLastName;
+  final String photoUrl;
   final String email;
-  final String hakkinda;
+  final String country;
+  final String city;
 
-  Kullanici({@required this.id, this.kullaniciAdi, this.fotoUrl, this.email,  this.hakkinda});
+  UserDetail(
+      {@required this.id,
+      this.userName,
+      this.nameLastName,
+      this.photoUrl,
+      this.email,
+      this.country,
+      this.city});
 
-
-  factory Kullanici.firebasedenUret(User kullanici) {
-    return Kullanici(
-      id: kullanici.uid,
-      kullaniciAdi: kullanici.displayName,
-      fotoUrl: kullanici.photoURL,
-      email: kullanici.email,
+  factory UserDetail.createFromFirebase(auth.User user) {
+    return UserDetail(
+      id: user.uid,
+      userName: user.displayName,
+      photoUrl: user.photoURL,
+      email: user.email,
     );
   }
 
-
-  factory Kullanici.dokumandanUret(DocumentSnapshot doc) {
-    var docData = doc.data();
-    return Kullanici(
-      id : doc.id,
-      kullaniciAdi: docData['kullaniciAdi'],
-      email: docData['email'],
-      fotoUrl: docData['fotoUrl'],
-      hakkinda: docData['hakkinda'],
+  factory UserDetail.createFromDoc(DocumentSnapshot doc) {
+    return UserDetail(
+      id: doc.id,
+      userName: doc["userName"],
+      nameLastName: doc["nameAndLastName"],
+      email: doc["email"],
+      photoUrl: doc["photoUrl"],
+      city: doc["city"],
+      country: doc["country"]
+      
     );
   }
-
-
 }
