@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
+import 'package:takas/models/user.dart';
+import 'package:takas/services/firestore_service.dart';
 
 import '../../lists.dart';
 
 class Profile extends StatelessWidget {
+  final String profileUserId;
+
+  const Profile({Key key, this.profileUserId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: allBgColor,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                buildHeader(context),
-                buildUserPhotoAndInfo(context),
-                buildSwapies(context)
-              ],
-            ),
-          ),
+        body: FutureBuilder(
+          future: FirestoreService().bringUser(profileUserId),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return buildProfile(context, snapshot.data);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildProfile(BuildContext context, UserDetail profileData) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildHeader(context),
+            buildUserPhotoAndInfo(context, profileData),
+            buildSwapies(context)
+          ],
         ),
       ),
     );
@@ -54,10 +73,10 @@ class Profile extends StatelessWidget {
     );
   }
 
-  buildUserPhotoAndInfo(BuildContext context) {
+  buildUserPhotoAndInfo(BuildContext context, UserDetail profileData) {
     return Container(
       height: 220,
-      width: 200,
+      width: 300,
       child: Column(
         children: [
           Padding(
@@ -68,13 +87,14 @@ class Profile extends StatelessWidget {
               ]),
               child: CircleAvatar(
                 radius: 50.0,
-                backgroundImage: NetworkImage(
-                    "https://i.pinimg.com/564x/51/98/18/519818ac43ff0f69a0a968da5d5465e4.jpg"),
+                backgroundImage: profileData.photoUrl.isNotEmpty
+                    ? NetworkImage(profileData.photoUrl)
+                    : AssetImage("assets/images/anonim.png"),
               ),
             ),
           ),
           Text(
-            "duba",
+            profileData.userName,
             style: Theme.of(context).textTheme.headline1.copyWith(
                   fontSize: 25,
                   color: lightColor,
@@ -84,7 +104,7 @@ class Profile extends StatelessWidget {
             height: 3,
           ),
           Text(
-            "Tuğba Yılmaz",
+            profileData.nameLastName,
             style: Theme.of(context)
                 .textTheme
                 .headline6
@@ -101,7 +121,7 @@ class Profile extends StatelessWidget {
                 color: darkHeaderColor,
                 size: 30,
               ),
-              Text("Turkey,Izmır",
+              Text("${profileData.country}, ${profileData.city}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1

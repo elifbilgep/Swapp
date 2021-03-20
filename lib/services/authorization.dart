@@ -4,6 +4,7 @@ import 'package:takas/models/user.dart';
 
 class Authorization {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String activeUserId;
 
   UserDetail _createUser(User user) {
     return user == null ? null : UserDetail.createFromFirebase(user);

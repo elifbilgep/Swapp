@@ -18,10 +18,9 @@ class Redirecting extends StatelessWidget {
                   child: CircularProgressIndicator(
             backgroundColor: darkHeaderColor,
           )));
-        }
-        else if ( snapshot.hasData) {
-          
+        } else if (snapshot.hasData) {
           UserDetail activeUser = snapshot.data;
+          _authService.activeUserId = activeUser.id;
           return Home();
         } else {
           return LoginPage();
@@ -31,4 +30,3 @@ class Redirecting extends StatelessWidget {
     );
   }
 }
-

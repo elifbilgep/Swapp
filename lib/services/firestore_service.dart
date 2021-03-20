@@ -25,12 +25,12 @@ class FirestoreService {
     });
   }
 
-  /*Future<UserDetail> bringUser(id) async {
+  Future<UserDetail> bringUser(id) async {
     DocumentSnapshot doc = await _firestore.collection("users").doc(id).get();
     if (doc.exists) {
       UserDetail user = UserDetail.createFromDoc(doc);
       return user;
     }
     return null;
-  }*/
+  }
 }

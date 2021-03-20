@@ -1,25 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/Pages/message/messages.dart';
 import 'package:takas/const.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/services/redirecting.dart';
-
-import 'Pages/auth/acc_settings.dart';
-import 'Pages/swapies/add_swapie.dart';
-import 'Pages/categories.dart';
-import 'Pages/auth/create_acc.dart';
-import 'Pages/swapies/details.dart';
-import 'Pages/auth/forgot_pass.dart';
-import 'Pages/auth/forgot_pass2.dart';
-import 'Pages/home.dart';
-import 'Pages/auth/login.dart';
-import 'Pages/message/mesage_detail.dart';
-import 'Pages/swapies/mySwapies.dart';
-import 'Pages/auth/profile.dart';
-import 'Pages/swapies/swap_it.dart';
-import 'Pages/swapies/swapped_swapies.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

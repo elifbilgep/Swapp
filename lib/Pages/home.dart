@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:takas/Pages/auth/profile.dart';
 import 'package:takas/Pages/categories.dart';
 import 'package:takas/Pages/message/messages.dart';
@@ -26,6 +27,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    String activeUserIdFromProvider =
+        Provider.of<Authorization>(context, listen: false).activeUserId;
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -40,7 +43,9 @@ class _HomeState extends State<Home> {
               Categories(),
               AddSwapie(),
               Messages(),
-              Profile()
+              Profile(
+                profileUserId: activeUserIdFromProvider,
+              )
             ],
           )),
     );
