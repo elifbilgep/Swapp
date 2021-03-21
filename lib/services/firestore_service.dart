@@ -1,20 +1,20 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final DateTime time = DateTime.now();
 
-  Future<void> createUser(
-      {id,
-      email,
-      userName,
-      nameAndLastName,
-      country,
-      city,
-      photoUrl = ""}) async {
+  Future<void> createUser({
+    id,
+    email,
+    userName,
+    nameAndLastName,
+    country,
+    city,
+    photoUrl = "",
+  }) async {
     await _firestore.collection("users").doc(id).set({
       "userName": userName,
       "nameAndLastName": nameAndLastName,
@@ -32,5 +32,35 @@ class FirestoreService {
       return user;
     }
     return null;
+  }
+
+  Future<void> createSwapie(
+      {name, photoUrl, price, category, seen, publisherId, about}) async {
+    await _firestore
+        .collection("swapies")
+        .doc(publisherId)
+        .collection("userSwapies")
+        .add({
+      "name": name,
+      "price": price,
+      "swapiePhotoUrl": photoUrl,
+      "seen": seen,
+      "publisherId": publisherId,
+      "about": about,
+      "postTime": time,
+    });
+  }
+
+  Future<List<Swapie>> bringAllSwapies(userId) async {
+    var snapshot = await _firestore
+        .collection("swapies")
+        .doc(userId)
+        .collection("userSwapies")
+        .orderBy("postTime", descending: true)
+        .get();
+
+    List<Swapie> swapies =
+        snapshot.docs.map((doc) => Swapie.createFromDoc(doc)).toList();
+    return swapies;
   }
 }

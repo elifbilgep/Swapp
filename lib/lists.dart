@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-List cateogires = [
+List categories = [
   "Technology",
   "Clothing",
   "Decoration",

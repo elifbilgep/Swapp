@@ -5,6 +5,8 @@ import 'package:takas/const.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/services/redirecting.dart';
 
+import 'Pages/auth/reset_password.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -15,8 +17,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<Authorization>(
-          create: (_)=> Authorization(),
-          child: MaterialApp(
+      create: (_) => Authorization(),
+      child: MaterialApp(
         theme: ThemeData(
           accentColor: Colors.grey,
           accentColorBrightness: Brightness.light,

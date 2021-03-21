@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:takas/Pages/auth/reset_password.dart';
 import 'package:takas/const.dart';
 
 class ProfileSettings extends StatelessWidget {
@@ -8,17 +9,11 @@ class ProfileSettings extends StatelessWidget {
       child: Scaffold(
         backgroundColor: allBgColor,
         body: Center(
-          child: Stack(
-            fit: StackFit.expand,
+          child: ListView(
             children: [
-              Column(
-                children: [
-                  buildHeader(context),
-                  buildUserPhotoAndInfo(context),
-                  buildButtons(context),
-                ],
-              ),
-              buildBottomNavBar(context),
+              buildHeader(context),
+              buildUserPhotoAndInfo(context),
+              buildButtons(context),
             ],
           ),
         ),
@@ -35,9 +30,10 @@ class ProfileSettings extends StatelessWidget {
         padding: const EdgeInsets.only(left: 25.0),
         child: Row(
           children: [
-            Icon(
-              Icons.arrow_back_ios,
+            IconButton(
+              icon: Icon(Icons.arrow_back_ios),
               color: lightColor,
+              onPressed: () => Navigator.pop(context),
             ),
             Text(
               "Profile Settings",
@@ -172,34 +168,92 @@ class ProfileSettings extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-            height: 50,
-            width: 350,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
-            ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(
-                child: Text(
-              "Change Password",
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
+          GestureDetector(
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ResetPassword())),
+            child: Container(
+              height: 50,
+              width: 350,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.shade900,
+                    blurRadius: 3,
+                    spreadRadius: 0.5)
+              ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                  child: Text(
+                "Change Password",
+                style: Theme.of(context).textTheme.bodyText1,
+              )),
+            ),
           ),
-          Container(
-            height: 50,
-            width: 350,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade900, blurRadius: 3, spreadRadius: 0.5)
-            ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
-            child: Center(
-                child: Text(
-              "Change E-mail",
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
+          GestureDetector(
+            onTap: () => showEmailDialog(context),
+            child: Container(
+              height: 50,
+              width: 350,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.shade900,
+                    blurRadius: 3,
+                    spreadRadius: 0.5)
+              ], color: buttonColor, borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                  child: Text(
+                "Change E-mail",
+                style: Theme.of(context).textTheme.bodyText1,
+              )),
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> showEmailDialog(context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return Theme(
+          data: ThemeData(primaryColor: darkColor),
+          child: AlertDialog(
+            title: Text(
+              'Change Account E-Mail',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            content: SingleChildScrollView(
+              child: Form(
+                child: ListBody(
+                  children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(prefixIcon: Icon(Icons.mail)),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: (null),
+                child: Text(
+                  'Save',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              TextButton(
+                child: Text(
+                  'Cancel',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -175,7 +175,7 @@ class _HomeState extends State<Home> {
         width: size.width,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: cateogires.length,
+            itemCount: categories.length,
             itemBuilder: (BuildContext context, index) {
               return Padding(
                 padding: const EdgeInsets.only(left: 8.0),
@@ -196,7 +196,7 @@ class _HomeState extends State<Home> {
                         height: 5,
                       ),
                       Text(
-                        cateogires[index],
+                        categories[index],
                         style: Theme.of(context)
                             .textTheme
                             .headline4

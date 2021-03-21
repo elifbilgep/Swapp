@@ -1,40 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:takas/Pages/auth/acc_settings.dart';
 import 'package:takas/const.dart';
+import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
+import 'package:takas/services/authorization.dart';
 import 'package:takas/services/firestore_service.dart';
 
 import '../../lists.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   final String profileUserId;
+  Profile({Key key, this.profileUserId}) : super(key: key);
 
-  const Profile({Key key, this.profileUserId}) : super(key: key);
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  List<Swapie> _swapies = [];
+  String _activeUserId;
+
+  _bringSwapies() async {
+    List<Swapie> swapies =
+        await FirestoreService().bringAllSwapies(widget.profileUserId);
+
+    setState(() {
+      _swapies = swapies;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _bringSwapies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _activeUserId = Provider.of<Authorization>(context).activeUserId;
     return SafeArea(
       child: Scaffold(
         backgroundColor: allBgColor,
         body: FutureBuilder(
-          future: FirestoreService().bringUser(profileUserId),
+          future: FirestoreService().bringUser(widget.profileUserId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               Center(
                 child: CircularProgressIndicator(),
               );
             }
-            return buildProfile(context, snapshot.data);
+            return buildProfile(context, snapshot.data, _activeUserId);
           },
         ),
       ),
     );
   }
 
-  Widget buildProfile(BuildContext context, UserDetail profileData) {
+  Widget buildProfile(
+      BuildContext context, UserDetail profileData, _activeUserId) {
     return Center(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            buildHeader(context),
+            buildHeader(context, _activeUserId),
             buildUserPhotoAndInfo(context, profileData),
             buildSwapies(context)
           ],
@@ -43,17 +73,18 @@ class Profile extends StatelessWidget {
     );
   }
 
-  buildHeader(BuildContext context) {
+  buildHeader(BuildContext context, _activeUserId) {
     return Container(
       height: 100,
       color: darkHeaderColor,
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(left: 25.0),
+        padding: const EdgeInsets.only(left: 10.0),
         child: Row(
           children: [
-            Icon(
-              Icons.arrow_back_ios,
+            IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.arrow_back_ios),
               color: lightColor,
             ),
             Text(
@@ -61,12 +92,22 @@ class Profile extends StatelessWidget {
               style: Theme.of(context).textTheme.headline3,
             ),
             SizedBox(
-              width: 200,
+              width: 180,
             ),
-            Icon(
-              Icons.settings,
-              color: lightColor,
-            )
+            widget.profileUserId == _activeUserId
+                ? GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileSettings())),
+                    child: Icon(
+                      Icons.settings,
+                      color: lightColor,
+                    ),
+                  )
+                : SizedBox(
+                    width: 30,
+                  )
           ],
         ),
       ),
@@ -145,7 +186,7 @@ class Profile extends StatelessWidget {
             crossAxisSpacing: 0,
             mainAxisSpacing: 20,
           ),
-          itemCount: mostRecentPhotos.length,
+          itemCount: _swapies.length,
           itemBuilder: (context, index) {
             return Center(
               child: Container(
@@ -156,7 +197,7 @@ class Profile extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: Image.network(
-                        mostRecentPhotos[index],
+                        _swapies[index].swapiePhotoUrl,
                         height: 250,
                         width: 170,
                         fit: BoxFit.cover,
@@ -174,11 +215,11 @@ class Profile extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "${clothingPrices[index]}",
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              Icon(Icons.attach_money)
+                              Text(_swapies[index].price.toString()),
+                              Icon(
+                                Icons.attach_money,
+                                color: lightColor,
+                              )
                             ],
                           ),
                         ),
