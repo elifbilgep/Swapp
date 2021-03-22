@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:takas/Pages/home.dart';
+import 'package:takas/Pages/message/messages.dart';
 import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 
@@ -25,6 +27,7 @@ class FirestoreService {
       "photoUrl": photoUrl,
       "country": country,
       "city": city,
+      "id": id,
     });
   }
 
@@ -38,6 +41,7 @@ class FirestoreService {
   }
 
   Future<void> createSwapie({
+    userRef,
     name,
     id,
     photoUrl,
@@ -46,9 +50,9 @@ class FirestoreService {
     seen,
     publisherId,
     about,
-    userRef
   }) async {
     await _firestore.collection("swappies").doc(id).set({
+      "userRef": userRef,
       "name": name,
       "price": price,
       "swapiePhotoUrl": photoUrl,
@@ -57,44 +61,47 @@ class FirestoreService {
       "about": about,
       "postTime": time,
       "category": category,
-      "userRef" : userRef,
     });
   }
 
-  Future<List<Swapie>> bringAllSwapies(userId) async {
-    var snapshot = await _firestore
-        .collection("swapies")
-        .doc(userId)
-        .collection("userSwapies")
-        .orderBy("postTime", descending: true)
-        .get();
+  bringAllSwapies() async {
+    var snapshot = await _firestore.collection("swappies").get();
 
-    List<Swapie> swapies =
+    var swapies =
         snapshot.docs.map((doc) => Swapie.createFromDoc(doc)).toList();
+
     return swapies;
+  }
+
+  bringUserSwapies(id) async {
+    var snapshot = await _firestore
+        .collection("swappies")
+        .where("publisherId", isEqualTo: id)
+        .get();
+    var mySwapies =
+        snapshot.docs.map((doc) => Swapie.createFromDoc(doc)).toList();
+
+    return mySwapies;
+  }
+
+  bringOneSwapie(id) async {
+    var snapshot = await _firestore.collection("swappies").doc(id).get();
+
+    Swapie otherSwapie = Swapie.createFromDoc(snapshot);
+    return otherSwapie;
   }
 
   Future<List<UserDetail>> userSearch(String searchWord) async {
     var snapshot = await _firestore
         .collection("users")
-        .where("userName",
-            isGreaterThanOrEqualTo: searchWord, isLessThanOrEqualTo: searchWord)
+        .where(
+          "userName",
+          isLessThanOrEqualTo: searchWord,
+        )
         .get();
 
     var searchedUsers =
         snapshot.docs.map((doc) => UserDetail.createFromDoc(doc)).toList();
     return searchedUsers;
-  }
-
-  Future<List<Swapie>> bringAllTheSwapiesEver() async {
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection("users").get();
-    var userIdList = snapshot.docs.map((doc) => doc.id).toList();
-    List<Swapie> swapies = [];
-    for (var id in userIdList) {
-      swapies.addAll(await bringAllSwapies(id));
-    }
-
-    return swapies;
   }
 }

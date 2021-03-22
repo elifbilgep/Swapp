@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Swapie {
   final String name;
@@ -9,7 +10,7 @@ class Swapie {
   final int seen;
   final String publisherId;
   final String about;
-  final String userRef;
+  final DocumentReference userRef;
 
   Swapie({
     this.userRef,
@@ -25,7 +26,7 @@ class Swapie {
 
   factory Swapie.createFromDoc(DocumentSnapshot doc) {
     return Swapie(
-        userRef: doc.data()["userRef"],
+        userRef: FirebaseFirestore.instance.collection("users").doc("id"),
         id: doc.id,
         swapiePhotoUrl: doc.data()["swapiePhotoUrl"],
         price: doc.data()["price"],

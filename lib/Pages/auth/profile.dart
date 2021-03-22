@@ -12,8 +12,9 @@ import 'package:transparent_image/transparent_image.dart';
 import '../../lists.dart';
 
 class Profile extends StatefulWidget {
-  final String profileUserId;
-  Profile({Key key, this.profileUserId}) : super(key: key);
+  final comingIdFromSearch;
+
+  const Profile({Key key, this.comingIdFromSearch}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -24,28 +25,24 @@ class _ProfileState extends State<Profile> {
   String _activeUserId;
   UserDetail _profileOwner;
   var clickedSwapieId;
-  _bringSwapies() async {
-    List<Swapie> swapies =
-        await FirestoreService().bringAllSwapies(widget.profileUserId);
-    setState(() {
-      _swapies = swapies;
-    });
-  }
+  List<Swapie> swapiesData;
+  List<Swapie> mySwapies;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    _bringSwapies();
   }
 
   @override
   Widget build(BuildContext context) {
+    FirestoreService().bringUser(widget.comingIdFromSearch);
     _activeUserId = Provider.of<Authorization>(context).activeUserId;
     return SafeArea(
       child: Scaffold(
         backgroundColor: allBgColor,
         body: FutureBuilder(
-          future: FirestoreService().bringUser(widget.profileUserId),
+          future: FirestoreService().bringUser(widget.comingIdFromSearch),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -68,7 +65,7 @@ class _ProfileState extends State<Profile> {
           children: [
             buildHeader(context, _activeUserId),
             buildUserPhotoAndInfo(context, profileData),
-            buildSwapies(context)
+            buildSwapies(context, _activeUserId)
           ],
         ),
       ),
@@ -89,7 +86,7 @@ class _ProfileState extends State<Profile> {
               "Profile",
               style: Theme.of(context).textTheme.headline3,
             ),
-            widget.profileUserId == _activeUserId
+            widget.comingIdFromSearch == _activeUserId
                 ? GestureDetector(
                     onTap: () => Navigator.push(
                         context,
@@ -181,9 +178,27 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  buildSwapies(BuildContext context) {
+  buildSwapies(BuildContext context, _activeUserId) {
+    return FutureBuilder(
+      future: FirestoreService().bringUserSwapies(widget.comingIdFromSearch),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          mySwapies = snapshot.data;
+        }
+
+        return buildGridView(_activeUserId, snapshot.data);
+      },
+    );
+  }
+
+  Widget buildGridView(_activeUserId, mySwapies) {
     return Container(
-      height: mostRecentPhotos.length.toDouble() * 170,
+      height: 1000,
       child: GridView.builder(
           scrollDirection: Axis.vertical,
           physics: NeverScrollableScrollPhysics(),
@@ -193,20 +208,15 @@ class _ProfileState extends State<Profile> {
             crossAxisSpacing: 0,
             mainAxisSpacing: 20,
           ),
-          itemCount: _swapies.length,
+          itemCount: mySwapies.length,
           itemBuilder: (context, index) {
             return Center(
               child: GestureDetector(
                 onTap: () {
-                  clickedSwapieId = _swapies[index].id;
-                  if (widget.profileUserId != _activeUserId) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Messages(
-                                  otherSwapieId: clickedSwapieId,
-                                  otherUserId: widget.profileUserId,
-                                )));
+                  clickedSwapieId = mySwapies[index].id;
+                  if (widget.comingIdFromSearch != _activeUserId) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Messages()));
                   }
                 },
                 child: Container(
@@ -217,7 +227,7 @@ class _ProfileState extends State<Profile> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: Image.network(
-                          _swapies[index].swapiePhotoUrl,
+                          mySwapies[index].swapiePhotoUrl,
                           height: 250,
                           width: 170,
                           fit: BoxFit.cover,
@@ -235,7 +245,7 @@ class _ProfileState extends State<Profile> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(_swapies[index].price.toString()),
+                                Text(mySwapies[index].price.toString()),
                                 Icon(
                                   Icons.attach_money,
                                   color: lightColor,

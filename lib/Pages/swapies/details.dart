@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
@@ -7,9 +8,10 @@ import 'package:takas/services/firestore_service.dart';
 class Details extends StatefulWidget {
   final String categoryName;
   final int categoryIndex;
-  final String profileUserId;
+
+  final String activeUserId;
   const Details(
-      {Key key, this.categoryName, this.categoryIndex, this.profileUserId})
+      {Key key, this.categoryName, this.categoryIndex, this.activeUserId})
       : super(key: key);
 
   @override
@@ -17,7 +19,6 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  List techno, clothing, decoration, books, hooby, others = [];
   List numbers = [0, 1, 2, 3, 4, 5];
   List<Swapie> allSwapies = [];
   List<Swapie> onlyThatCategory = [];
@@ -32,10 +33,11 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: allBgColor,
       body: FutureBuilder(
-        future: FirestoreService().bringUser(widget.profileUserId),
+        future: FirestoreService().bringUser(widget.activeUserId),
         builder: (context, snapshot) {
           if (onlyThatCategory.isEmpty) {
             return Center(
@@ -43,23 +45,23 @@ class _DetailsState extends State<Details> {
             );
           }
 
-          return buildColumn(context, snapshot.data, widget.profileUserId);
+          return buildColumn(context, snapshot.data, widget.activeUserId);
         },
       ),
     );
   }
 
-  Column buildColumn(BuildContext context, _profileOwner, profileUserId) {
+  Column buildColumn(BuildContext context, _profileOwner, activeUserId) {
     return Column(
       children: [
         buildHeader(context),
-        buildCards(context, _profileOwner, profileUserId)
+        buildCards(context, _profileOwner, activeUserId)
       ],
     );
   }
 
   bringAllSwapies() async {
-    List<Swapie> swapies = await FirestoreService().bringAllTheSwapiesEver();
+    List<Swapie> swapies = await FirestoreService().bringAllSwapies();
 
     setState(() {
       allSwapies = swapies;

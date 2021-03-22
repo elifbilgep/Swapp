@@ -22,28 +22,19 @@ class _HomeState extends State<Home> {
   Size size;
   int _activePageNo = 0;
   PageController pageController;
-  List<Swapie> allSwapies = [];
-  int indexNum;
 
-  bringAllSwapies() async {
-    List<Swapie> swapies = await FirestoreService().bringAllTheSwapiesEver();
-    if (this.mounted) {
-      setState(() {
-        allSwapies = swapies;
-      });
-    }
-  }
+  int indexNum;
+  List<Swapie> swapieData;
 
   @override
   void initState() {
     pageController = PageController();
-    bringAllSwapies();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     String activeUserIdFromProvider =
         Provider.of<Authorization>(context, listen: false).activeUserId;
     Size size = MediaQuery.of(context).size;
@@ -61,7 +52,7 @@ class _HomeState extends State<Home> {
               AddSwapie(),
               Messages(),
               Profile(
-                profileUserId: activeUserIdFromProvider,
+                comingIdFromSearch: activeUserIdFromProvider,
               )
             ],
           )),
@@ -91,66 +82,21 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget buildBottomNavBar(Size size) {
-    return Positioned(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade800,
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: Offset(0, 3),
-          )
-        ], borderRadius: BorderRadius.circular(20), color: lightColor2),
-        height: size.height * 0.1,
-        width: size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(
-              Icons.home,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.menu_outlined,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.add,
-              size: 50,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.messenger_sharp,
-              size: 20,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.person,
-              size: 25,
-              color: lightColor,
-            )
-          ],
-        ),
-      ),
-      left: 15,
-      bottom: 10,
-      right: 15,
-    );
-  }
-
   buildHeader() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15.0, top: 20),
+      padding: const EdgeInsets.only(left: 20.0, top: 20, right: 20),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Lets Swap!",
               style: Theme.of(context)
                   .textTheme
                   .headline2
                   .copyWith(fontSize: 29, color: lightColor)),
+          IconButton(
+              icon: Icon(Icons.logout),
+              color: lightColor,
+              onPressed: () => Authorization().signOut())
         ],
       ),
     );
@@ -207,7 +153,7 @@ class _HomeState extends State<Home> {
                             builder: (context) => Details(
                                   categoryName: categories[index],
                                   categoryIndex: index,
-                                  profileUserId: activeUserIdFromProvider,
+                                  activeUserId: activeUserIdFromProvider,
                                 )));
                   },
                   child: Container(
@@ -274,7 +220,13 @@ class _HomeState extends State<Home> {
             buildLine(),
             buildHeader2(),
             buildMostSeenCategories(),
+            SizedBox(
+              height: 10,
+            ),
             buildheader3(),
+            SizedBox(
+              height: 10,
+            ),
             buildMostRecent2()
           ],
         ),
@@ -355,60 +307,76 @@ class _HomeState extends State<Home> {
   buildMostRecent2() {
     return Container(
       height: mostRecentPhotos.length / 2 * 500,
-      child: GridView.builder(
-          scrollDirection: Axis.vertical,
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 300,
-            childAspectRatio: 0.75,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 20,
-          ),
-          itemCount: allSwapies.length,
-          itemBuilder: (context, index) {
+      child: FutureBuilder(
+        future: FirestoreService().bringAllSwapies(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
             return Center(
-              child: Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        allSwapies[index].swapiePhotoUrl,
-                        height: 250,
-                        width: 170,
-                        fit: BoxFit.cover,
-                      ),
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          swapieData = snapshot.data;
+
+          return buildGridView(swapieData);
+        },
+      ),
+    );
+  }
+
+  GridView buildGridView(swapieData) {
+    return GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200,
+          childAspectRatio: 0.8,
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 20,
+        ),
+        itemCount: swapieData.length,
+        itemBuilder: (context, index) {
+          return Center(
+            child: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(30)),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.network(
+                      swapieData[index].swapiePhotoUrl,
+                      height: 260,
+                      width: 170,
+                      fit: BoxFit.cover,
                     ),
-                    Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: darkColor2,
-                              borderRadius: BorderRadius.circular(20)),
-                          height: 50,
-                          width: 130,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${allSwapies[index].price}",
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              Icon(Icons.attach_money)
-                            ],
-                          ),
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: darkColor2,
+                            borderRadius: BorderRadius.circular(20)),
+                        height: 50,
+                        width: 130,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${swapieData[index].price}",
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            Icon(Icons.attach_money)
+                          ],
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 
   buildheader3() {

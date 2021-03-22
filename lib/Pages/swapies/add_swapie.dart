@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/services/firestore_service.dart';
@@ -425,14 +426,17 @@ class _AddSwapieState extends State<AddSwapie> {
             Provider.of<Authorization>(context, listen: false).activeUserId;
 
         await FirestoreService().createSwapie(
-            photoUrl: uploadedPhotoUrl,
-            about: givenAbout,
-            name: givenName,
-            category: givenCategory,
-            price: givenPrice,
-            seen: 200,
-            publisherId: activeUserId,
-            userRef: "user/$activeUserId");
+          photoUrl: uploadedPhotoUrl,
+          about: givenAbout,
+          name: givenName,
+          category: givenCategory,
+          price: givenPrice,
+          seen: 200,
+          publisherId: activeUserId,
+          userRef: FirebaseFirestore.instance
+              .collection("users")
+              .doc("$activeUserId"),
+        );
 
         setState(() {
           loading = false;

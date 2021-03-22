@@ -56,7 +56,7 @@ class Categories extends StatelessWidget {
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
           ),
-          itemCount: categories.length,
+          itemCount: 5,
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(

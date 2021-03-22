@@ -1,26 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:takas/Pages/message/mesage_detail.dart';
 import 'package:takas/const.dart';
+import 'package:takas/lists.dart';
+import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 import 'package:takas/services/firestore_service.dart';
 
 class Messages extends StatelessWidget {
-  final otherSwapieId;
-  final otherUserId;
-  Messages({Key key, this.otherSwapieId, this.otherUserId}) : super(key: key);
-  var idList = [];
-
   @override
   Widget build(BuildContext context) {
-    idList.add(otherSwapieId);
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: Center(
-          child: Column(
-            children: [buildHeader(context), buildPersonCard(context)],
-          ),
-        ),
-      ),
+        child: Scaffold(
+      backgroundColor: allBgColor,
+      body: Center(child: buildColumn(context)),
+    ));
+  }
+
+  Column buildColumn(
+    BuildContext context,
+  ) {
+    return Column(
+      children: [
+        buildHeader(context),
+        buildPersonCard(context),
+      ],
     );
   }
 
@@ -33,10 +37,10 @@ class Messages extends StatelessWidget {
         padding: const EdgeInsets.only(left: 15.0),
         child: Row(
           children: [
-            Icon(
-              Icons.arrow_back_ios_outlined,
-              color: lightColor,
-            ),
+            IconButton(
+                icon: Icon(Icons.arrow_back_ios_outlined),
+                color: lightColor2,
+                onPressed: () => Navigator.pop(context)),
             SizedBox(
               width: 10,
             ),
@@ -50,65 +54,57 @@ class Messages extends StatelessWidget {
     );
   }
 
-  buildPersonCard(BuildContext context) {
+  buildPersonCard(
+    BuildContext context,
+  ) {
     return Container(
       child: Expanded(
         child: ListView.builder(
-            itemCount: 10,
+            itemCount: 5,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 10.0, left: 10),
                 child: Container(
-                  height: 140,
-                  width: MediaQuery.of(context).size.width,
-                  child: FutureBuilder(
-                    future: FirestoreService().bringUser(otherUserId),
-                    builder: (context, snapshot) {
-                      return buildContainer(context);
-                    },
-                  ),
-                ),
-              );
-            }),
-      ),
-    );
-  }
-
-  Container buildContainer(BuildContext context) {
-    return Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.6),
-                                        spreadRadius: 1,
-                                        blurRadius: 10,
-                                        offset: Offset(0, 3),
-                                      )
-                                    ]),
+                    height: 170,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 130,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.6),
+                                    spreadRadius: 1,
+                                    blurRadius: 10,
+                                    offset: Offset(0, 3),
+                                  )
+                                ],
+                              ),
+                              child: Container(
+                                decoration:
+                                    BoxDecoration(shape: BoxShape.circle),
                                 child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: NetworkImage(
-                                    "https://i.pinimg.com/564x/51/98/18/519818ac43ff0f69a0a968da5d5465e4.jpg",
-                                  ),
-                                ),
+                                    radius: 30,
+                                    backgroundImage: NetworkImage(
+                                      profilPhotoUrl[index],
+                                    )),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Container(
+                              width: 100,
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    height: 30,
-                                  ),
                                   Text(
-                                    "Tuğba Yılmaz",
+                                    messagesPersons[index],
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -118,7 +114,7 @@ class Messages extends StatelessWidget {
                                     height: 5,
                                   ),
                                   Text(
-                                    "Hello :)",
+                                    messages[index],
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -126,54 +122,50 @@ class Messages extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 100,
-                                width: 180,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 130,
+                              width: 170,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: GestureDetector(
+                                        onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MessageDetail())),
                                         child: Image.network(
-                                          "https://images.gardrops.com/uploads/2351209/user_items/23512097-s4-file-6031053d52ea3.jpeg",
+                                          clothingPhotos[index],
+                                          height: 200,
+                                          width: 100,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.swap_horiz,
-                                      size: 30,
-                                    ),
-                                    Container(
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15),
-                                        child: Image.network(
-                                            "https://images.gardrops.com/uploads/134640/user_items/134640400-s1-iphone-product-595b89361554c.png",
-                                            fit: BoxFit.cover),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Divider(
-                            color: lightColor,
-                            height: 10,
-                            indent: 20,
-                            endIndent: 20,
-                          )
-                        ],
-                      ),
-                    );
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          color: lightColor,
+                          height: 30,
+                          indent: 20,
+                          endIndent: 20,
+                        )
+                      ],
+                    )),
+              );
+            }),
+      ),
+    );
   }
 }

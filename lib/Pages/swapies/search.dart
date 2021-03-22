@@ -114,7 +114,7 @@ class _SearchState extends State<Search> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Profile(
-                                    profileUserId: user.id,
+                                    comingIdFromSearch: user.id,
                                   )));
                     },
                     child: ListTile(
