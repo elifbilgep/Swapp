@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:takas/Pages/auth/profile.dart';
@@ -35,7 +36,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
     pageController = PageController();
     bringAllSwapies();
     super.initState();
@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+   
     String activeUserIdFromProvider =
         Provider.of<Authorization>(context, listen: false).activeUserId;
     Size size = MediaQuery.of(context).size;

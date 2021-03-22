@@ -1,16 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:takas/Pages/home.dart';
 import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final DateTime time = DateTime.now();
-  
-
-  
-  
 
   Future<void> createUser({
     id,
@@ -98,6 +95,7 @@ class FirestoreService {
     for (var id in userIdList) {
       swapies.addAll(await bringAllSwapies(id));
     }
+
     return swapies;
   }
 }

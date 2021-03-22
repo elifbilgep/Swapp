@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:takas/Pages/auth/acc_settings.dart';
+import 'package:takas/Pages/message/messages.dart';
 import 'package:takas/const.dart';
 import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
@@ -22,7 +23,7 @@ class _ProfileState extends State<Profile> {
   List<Swapie> _swapies = [];
   String _activeUserId;
   UserDetail _profileOwner;
-
+  var clickedSwapieId;
   _bringSwapies() async {
     List<Swapie> swapies =
         await FirestoreService().bringAllSwapies(widget.profileUserId);
@@ -33,7 +34,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-
     super.initState();
     _bringSwapies();
   }
@@ -81,20 +81,13 @@ class _ProfileState extends State<Profile> {
       color: darkHeaderColor,
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(Icons.arrow_back_ios),
-              color: lightColor,
-            ),
             Text(
               "Profile",
               style: Theme.of(context).textTheme.headline3,
-            ),
-            SizedBox(
-              width: 180,
             ),
             widget.profileUserId == _activeUserId
                 ? GestureDetector(
@@ -134,10 +127,17 @@ class _ProfileState extends State<Profile> {
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(shape: BoxShape.circle),
-                child: FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: profileData.photoUrl,
-                ),
+                child: profileData.photoUrl.isEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset("assets/images/anonim.png"))
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: profileData.photoUrl,
+                        ),
+                      ),
               ),
             ),
           ),
@@ -196,43 +196,57 @@ class _ProfileState extends State<Profile> {
           itemCount: _swapies.length,
           itemBuilder: (context, index) {
             return Center(
-              child: Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        _swapies[index].swapiePhotoUrl,
-                        height: 250,
-                        width: 170,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: darkColor2,
-                              borderRadius: BorderRadius.circular(20)),
-                          height: 50,
-                          width: 130,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(_swapies[index].price.toString()),
-                              Icon(
-                                Icons.attach_money,
-                                color: lightColor,
-                              )
-                            ],
-                          ),
+              child: GestureDetector(
+                onTap: () {
+                  clickedSwapieId = _swapies[index].id;
+                  if (widget.profileUserId != _activeUserId) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Messages(
+                                  otherSwapieId: clickedSwapieId,
+                                  otherUserId: widget.profileUserId,
+                                )));
+                  }
+                },
+                child: Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.network(
+                          _swapies[index].swapiePhotoUrl,
+                          height: 250,
+                          width: 170,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    )
-                  ],
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: darkColor2,
+                                borderRadius: BorderRadius.circular(20)),
+                            height: 50,
+                            width: 130,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(_swapies[index].price.toString()),
+                                Icon(
+                                  Icons.attach_money,
+                                  color: lightColor,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

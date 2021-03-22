@@ -447,7 +447,6 @@ class _AddSwapieState extends State<AddSwapie> {
             ),
           ),
         );
-        
       }
     }
   }
@@ -505,7 +504,7 @@ class _AddSwapieState extends State<AddSwapie> {
         source: ImageSource.camera,
         maxHeight: 200,
         maxWidth: 150,
-        imageQuality: 80);
+        imageQuality: 100);
 
     setState(() {
       file = File(image.path);
