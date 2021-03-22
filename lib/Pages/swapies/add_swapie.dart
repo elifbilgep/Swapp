@@ -381,7 +381,7 @@ class _AddSwapieState extends State<AddSwapie> {
     return Padding(
       padding: const EdgeInsets.only(top: 25.0, bottom: 25),
       child: GestureDetector(
-        onTap: shareButton,
+        onTap: () => shareButton(),
         child: Container(
           height: 50,
           width: 300,
@@ -431,7 +431,8 @@ class _AddSwapieState extends State<AddSwapie> {
             category: givenCategory,
             price: givenPrice,
             seen: 200,
-            publisherId: activeUserId);
+            publisherId: activeUserId,
+            userRef: "user/$activeUserId");
 
         setState(() {
           loading = false;

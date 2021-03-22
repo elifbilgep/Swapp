@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-   
+    
     String activeUserIdFromProvider =
         Provider.of<Authorization>(context, listen: false).activeUserId;
     Size size = MediaQuery.of(context).size;

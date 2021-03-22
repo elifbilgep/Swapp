@@ -9,8 +9,10 @@ class Swapie {
   final int seen;
   final String publisherId;
   final String about;
+  final String userRef;
 
   Swapie({
+    this.userRef,
     this.name,
     this.publisherId,
     this.id,
@@ -23,6 +25,7 @@ class Swapie {
 
   factory Swapie.createFromDoc(DocumentSnapshot doc) {
     return Swapie(
+        userRef: doc.data()["userRef"],
         id: doc.id,
         swapiePhotoUrl: doc.data()["swapiePhotoUrl"],
         price: doc.data()["price"],

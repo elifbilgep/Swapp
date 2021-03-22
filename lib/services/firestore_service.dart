@@ -37,20 +37,18 @@ class FirestoreService {
     return null;
   }
 
-  Future<void> createSwapie(
-      {name,
-      photoUrl,
-      price,
-      category,
-      seen,
-      publisherId,
-      about,
-      catgory}) async {
-    await _firestore
-        .collection("swapies")
-        .doc(publisherId)
-        .collection("userSwapies")
-        .add({
+  Future<void> createSwapie({
+    name,
+    id,
+    photoUrl,
+    price,
+    category,
+    seen,
+    publisherId,
+    about,
+    userRef
+  }) async {
+    await _firestore.collection("swappies").doc(id).set({
       "name": name,
       "price": price,
       "swapiePhotoUrl": photoUrl,
@@ -59,6 +57,7 @@ class FirestoreService {
       "about": about,
       "postTime": time,
       "category": category,
+      "userRef" : userRef,
     });
   }
 
