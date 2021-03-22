@@ -4,9 +4,13 @@ import 'package:takas/Pages/auth/profile.dart';
 import 'package:takas/Pages/categories.dart';
 import 'package:takas/Pages/message/messages.dart';
 import 'package:takas/Pages/swapies/add_swapie.dart';
+import 'package:takas/Pages/swapies/details.dart';
+import 'package:takas/Pages/swapies/search.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
+import 'package:takas/models/swapie.dart';
 import 'package:takas/services/authorization.dart';
+import 'package:takas/services/firestore_service.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,11 +21,23 @@ class _HomeState extends State<Home> {
   Size size;
   int _activePageNo = 0;
   PageController pageController;
+  List<Swapie> allSwapies = [];
+  int indexNum;
+
+  bringAllSwapies() async {
+    List<Swapie> swapies = await FirestoreService().bringAllTheSwapiesEver();
+    if (this.mounted) {
+      setState(() {
+        allSwapies = swapies;
+      });
+    }
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+
     pageController = PageController();
+    bringAllSwapies();
     super.initState();
   }
 
@@ -51,7 +67,11 @@ class _HomeState extends State<Home> {
     );
   }
 
-  SingleChildScrollView buildHomePage(Size size) {
+  SingleChildScrollView buildHomePage(
+    Size size,
+  ) {
+    String activeUserIdFromProvider =
+        Provider.of<Authorization>(context, listen: false).activeUserId;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -60,7 +80,7 @@ class _HomeState extends State<Home> {
           SizedBox(
             height: 25,
           ),
-          buildCategories(size),
+          buildCategories(size, activeUserIdFromProvider),
           SizedBox(
             height: 20,
           ),
@@ -129,7 +149,7 @@ class _HomeState extends State<Home> {
               style: Theme.of(context)
                   .textTheme
                   .headline2
-                  .copyWith(fontSize: 26, color: lightColor)),
+                  .copyWith(fontSize: 29, color: lightColor)),
         ],
       ),
     );
@@ -138,28 +158,27 @@ class _HomeState extends State<Home> {
   buildSearchBar(Size size) {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
-      child: Container(
-        height: 50,
-        width: size.width,
-        child: Form(
-          child: TextFormField(
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(0),
-              prefixIcon: Icon(
-                Icons.search,
-                size: 30,
-                color: Color(0xFF53536b),
-              ),
-              filled: true,
-              fillColor: lightColor2,
-              hintText: "Start",
-              hintStyle: TextStyle(color: lightColor, fontSize: 20),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Search())),
+        child: Container(
+          height: 50,
+          width: size.width,
+          decoration: BoxDecoration(
+              color: lightColor2, borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.search,
+                  color: lightColor,
                 ),
-              ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Search")
+              ],
             ),
           ),
         ),
@@ -167,7 +186,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  buildCategories(Size size) {
+  buildCategories(Size size, activeUserIdFromProvider) {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Container(
@@ -179,30 +198,42 @@ class _HomeState extends State<Home> {
             itemBuilder: (BuildContext context, index) {
               return Padding(
                 padding: const EdgeInsets.only(left: 8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: categoriesGradient,
-                      borderRadius: BorderRadius.circular(30)),
-                  width: 110,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        icons[index],
-                        size: 35,
-                        color: allBgColor,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        categories[index],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontSize: 16),
-                      )
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Details(
+                                  categoryName: categories[index],
+                                  categoryIndex: index,
+                                  profileUserId: activeUserIdFromProvider,
+                                )));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: categoriesGradient,
+                        borderRadius: BorderRadius.circular(30)),
+                    width: 110,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          icons[index],
+                          size: 35,
+                          color: allBgColor,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          categories[index],
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontSize: 16),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -229,24 +260,22 @@ class _HomeState extends State<Home> {
   buildWhiteSpace(Size size) {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
-      child: Expanded(
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              buildLine(),
-              buildHeader2(),
-              buildMostSeenCategories(),
-              buildheader3(),
-              buildMostRecent2()
-            ],
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            buildLine(),
+            buildHeader2(),
+            buildMostSeenCategories(),
+            buildheader3(),
+            buildMostRecent2()
+          ],
         ),
       ),
     );
@@ -334,7 +363,7 @@ class _HomeState extends State<Home> {
             crossAxisSpacing: 0,
             mainAxisSpacing: 20,
           ),
-          itemCount: mostRecentPhotos.length,
+          itemCount: allSwapies.length,
           itemBuilder: (context, index) {
             return Center(
               child: Container(
@@ -345,7 +374,7 @@ class _HomeState extends State<Home> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: Image.network(
-                        mostRecentPhotos[index],
+                        allSwapies[index].swapiePhotoUrl,
                         height: 250,
                         width: 170,
                         fit: BoxFit.cover,
@@ -364,7 +393,7 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "${clothingPrices[index]}",
+                                "${allSwapies[index].price}",
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                               Icon(Icons.attach_money)

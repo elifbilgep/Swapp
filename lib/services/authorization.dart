@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
+import 'package:takas/services/firestore_service.dart';
 
 class Authorization {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -13,6 +15,8 @@ class Authorization {
   Stream<UserDetail> get stateFollower {
     return _firebaseAuth.authStateChanges().map(_createUser);
   }
+
+  
 
   createUserWithMail(String email, String password) async {
     var userCard = await _firebaseAuth.createUserWithEmailAndPassword(

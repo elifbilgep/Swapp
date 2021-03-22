@@ -1,22 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
+import 'package:takas/models/swapie.dart';
+import 'package:takas/services/firestore_service.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
+  final String categoryName;
+  final int categoryIndex;
+  final String profileUserId;
+  const Details(
+      {Key key, this.categoryName, this.categoryIndex, this.profileUserId})
+      : super(key: key);
+
+  @override
+  _DetailsState createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  List techno, clothing, decoration, books, hooby, others = [];
+  List numbers = [0, 1, 2, 3, 4, 5];
+  List<Swapie> allSwapies = [];
+  List<Swapie> onlyThatCategory = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    bringAllSwapies();
+    bringOnlyCategoryItems();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: allBgColor,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Column(
-            children: [buildHeader(context), buildCards(context)],
-          ),
-          buildBottomNavBar(context),
-        ],
+      body: FutureBuilder(
+        future: FirestoreService().bringUser(widget.profileUserId),
+        builder: (context, snapshot) {
+          if (onlyThatCategory.isEmpty) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return buildColumn(context, snapshot.data, widget.profileUserId);
+        },
       ),
     );
+  }
+
+  Column buildColumn(BuildContext context, _profileOwner, profileUserId) {
+    return Column(
+      children: [
+        buildHeader(context),
+        buildCards(context, _profileOwner, profileUserId)
+      ],
+    );
+  }
+
+  bringAllSwapies() async {
+    List<Swapie> swapies = await FirestoreService().bringAllTheSwapiesEver();
+
+    setState(() {
+      allSwapies = swapies;
+      bringOnlyCategoryItems();
+    });
+  }
+
+  bringOnlyCategoryItems() {
+    for (var i in allSwapies) {
+      if (i.category == widget.categoryName) {
+        onlyThatCategory.add(i);
+      } else {
+        print("Allah");
+      }
+    }
   }
 
   buildHeader(BuildContext context) {
@@ -29,7 +87,7 @@ class Details extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              "Clothing",
+              widget.categoryName,
               style: Theme.of(context).textTheme.headline3,
             ),
           )
@@ -38,7 +96,7 @@ class Details extends StatelessWidget {
     );
   }
 
-  buildCards(BuildContext context) {
+  buildCards(BuildContext context, _profileOwner, profileUserId) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(
@@ -47,7 +105,7 @@ class Details extends StatelessWidget {
         ),
         child: Container(
           child: ListView.builder(
-            itemCount: clothing.length,
+            itemCount: onlyThatCategory.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
@@ -68,7 +126,7 @@ class Details extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
-                            clothing[index],
+                            onlyThatCategory[index].swapiePhotoUrl,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -107,7 +165,7 @@ class Details extends StatelessWidget {
                                   color: Colors.green,
                                 ),
                                 Text(
-                                  clothingPrices[index],
+                                  onlyThatCategory[index].price.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1

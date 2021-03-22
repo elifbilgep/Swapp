@@ -6,9 +6,24 @@ import 'package:takas/const.dart';
 import 'package:takas/models/user.dart';
 import 'package:takas/services/authorization.dart';
 
-class Redirecting extends StatelessWidget {
+class Redirecting extends StatefulWidget {
+  @override
+  _RedirectingState createState() => _RedirectingState();
+}
+
+class _RedirectingState extends State<Redirecting> {
+  String _activeUserId;
+
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _activeUserId = Provider.of<Authorization>(context).activeUserId;
     final _authService = Provider.of<Authorization>(context, listen: false);
     return StreamBuilder(
       builder: (context, snapshot) {

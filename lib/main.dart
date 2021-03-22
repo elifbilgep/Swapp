@@ -5,8 +5,6 @@ import 'package:takas/const.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/services/redirecting.dart';
 
-import 'Pages/auth/reset_password.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

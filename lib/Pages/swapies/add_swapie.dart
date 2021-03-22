@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:takas/const.dart';
 
 import '../../lists.dart';
-import '../home.dart';
 
 class AddSwapie extends StatefulWidget {
   @override

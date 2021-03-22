@@ -37,6 +37,8 @@ dependencies:
   firebase_core: ^0.5.2
   uuid:
   timeago:
+  cached_network_image: ^2.4.1
+  transparent_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -55,8 +57,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/aa.png
-    - assets/images/anonim.png
+    - assets/images/.
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -6,6 +6,7 @@ import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/services/firestore_service.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../lists.dart';
 
@@ -20,11 +21,11 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   List<Swapie> _swapies = [];
   String _activeUserId;
+  UserDetail _profileOwner;
 
   _bringSwapies() async {
     List<Swapie> swapies =
         await FirestoreService().bringAllSwapies(widget.profileUserId);
-
     setState(() {
       _swapies = swapies;
     });
@@ -32,7 +33,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     _bringSwapies();
   }
@@ -47,11 +48,12 @@ class _ProfileState extends State<Profile> {
           future: FirestoreService().bringUser(widget.profileUserId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              Center(
+              return Center(
                 child: CircularProgressIndicator(),
               );
             }
-            return buildProfile(context, snapshot.data, _activeUserId);
+            _profileOwner = snapshot.data;
+            return buildProfile(context, _profileOwner, _activeUserId);
           },
         ),
       ),
@@ -99,7 +101,9 @@ class _ProfileState extends State<Profile> {
                     onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfileSettings())),
+                            builder: (context) => ProfileSettings(
+                                  profile: _profileOwner,
+                                ))),
                     child: Icon(
                       Icons.settings,
                       color: lightColor,
@@ -107,7 +111,7 @@ class _ProfileState extends State<Profile> {
                   )
                 : SizedBox(
                     width: 30,
-                  )
+                  ),
           ],
         ),
       ),
@@ -126,11 +130,14 @@ class _ProfileState extends State<Profile> {
               decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
                 BoxShadow(color: Colors.grey.shade900, blurRadius: 5)
               ]),
-              child: CircleAvatar(
-                radius: 50.0,
-                backgroundImage: profileData.photoUrl.isNotEmpty
-                    ? NetworkImage(profileData.photoUrl)
-                    : AssetImage("assets/images/anonim.png"),
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(shape: BoxShape.circle),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: profileData.photoUrl,
+                ),
               ),
             ),
           ),

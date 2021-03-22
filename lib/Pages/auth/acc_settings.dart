@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:takas/Pages/auth/reset_password.dart';
 import 'package:takas/const.dart';
+import 'package:takas/models/user.dart';
 
 class ProfileSettings extends StatelessWidget {
+  final UserDetail profile;
+
+  const ProfileSettings({Key key, this.profile}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,9 +51,10 @@ class ProfileSettings extends StatelessWidget {
 
   buildUserPhotoAndInfo(BuildContext context) {
     return Container(
-      height: 200,
+      height: 250,
       width: 200,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -62,8 +67,7 @@ class ProfileSettings extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(
-                        "https://i.pinimg.com/564x/51/98/18/519818ac43ff0f69a0a968da5d5465e4.jpg"),
+                    backgroundImage: NetworkImage(profile.photoUrl),
                   ),
                   Container(
                     height: 35,
@@ -81,14 +85,18 @@ class ProfileSettings extends StatelessWidget {
             ),
           ),
           Text(
-            "Tuğba Yılmaz",
+            profile.nameLastName,
             style: Theme.of(context)
                 .textTheme
                 .headline1
                 .copyWith(fontSize: 22, color: lightColor),
           ),
-          SizedBox(
-            height: 3,
+          Text(
+            profile.userName,
+            style: Theme.of(context)
+                .textTheme
+                .headline1
+                .copyWith(fontSize: 22, color: lightColor),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +106,7 @@ class ProfileSettings extends StatelessWidget {
                 color: darkHeaderColor,
                 size: 30,
               ),
-              Text("Gebze",
+              Text("${profile.country}, ${profile.city}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
