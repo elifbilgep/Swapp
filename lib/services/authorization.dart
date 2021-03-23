@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 import 'package:takas/services/firestore_service.dart';
@@ -16,8 +15,6 @@ class Authorization {
     return _firebaseAuth.authStateChanges().map(_createUser);
   }
 
-  
-
   createUserWithMail(String email, String password) async {
     var userCard = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
@@ -32,17 +29,5 @@ class Authorization {
 
   signOut() {
     return _firebaseAuth.signOut();
-  }
-
-  Future<UserDetail> signinWithGoogle() async {
-    GoogleSignInAccount googleAcc = await GoogleSignIn().signIn();
-    GoogleSignInAuthentication googleAuthCard = await googleAcc.authentication;
-    AuthCredential loginWithoutPassword = GoogleAuthProvider.credential(
-        idToken: googleAuthCard.idToken,
-        accessToken: googleAuthCard.accessToken);
-    var loginCard =
-        await _firebaseAuth.signInWithCredential(loginWithoutPassword);
-    print(loginCard.user.displayName);
-    return _createUser(loginCard.user);
   }
 }

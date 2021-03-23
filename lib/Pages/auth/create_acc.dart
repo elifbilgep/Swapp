@@ -69,7 +69,7 @@ class _CreateAccState extends State<CreateAcc> {
                     ),
                     buildTextFormFields(context),
                     buildSignUpButton(context),
-                    buildGoogle(context),
+                    
                   ],
                 ),
                 _loadingAnimation()
@@ -334,26 +334,7 @@ class _CreateAccState extends State<CreateAcc> {
     );
   }
 
-  buildGoogle(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-              onTap: _googleSign,
-              child: Shimmer.fromColors(
-                child: Text(
-                  "Google",
-                  style: TextStyle(fontSize: 25),
-                ),
-                baseColor: darkHeaderColor,
-                highlightColor: Colors.white,
-              ))
-        ],
-      ),
-    );
-  }
+  
 
   void populateTurkey() {
     for (String key in turkey.keys) {
@@ -438,30 +419,7 @@ class _CreateAccState extends State<CreateAcc> {
     }
   }
 
-  void _googleSign() async {
-    givenCountry = value1;
-    givenCity = value2;
-    if (givenCity.isEmpty || givenCountry.isEmpty) {
-      _scaffoldKey.currentState
-          .showSnackBar(SnackBar(content: Text("Fill your Country and City")));
-    } else {
-      var _authService = Provider.of<Authorization>(context, listen: false);
-      UserDetail user = await _authService.signinWithGoogle();
-      if (user != null) {
-        FirestoreService().createUser(
-            id: user.id,
-            email: user.email,
-            userName: user.userName,
-            city: givenCity,
-            country: givenCountry,
-            photoUrl: user.photoUrl,
-            nameAndLastName: user.userName);
-      }
-      setState(() {
-        loading = true;
-      });
-    }
-  }
+  
 
   String validatorUserName(String inputValue) {
     if (inputValue.isEmpty) {

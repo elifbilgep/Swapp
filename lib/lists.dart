@@ -81,7 +81,7 @@ List clothingPhotos = [
 ];
 
 List profilPhotoUrl = [
-  "https://lh3.googleusercontent.com/a-/AOh14GhpbgwD1KDwKIt0LpmxYi96KlEob210iFw7RO2JjCg=s96-c",
+  "https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg",
   "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
   "https://d3c3u5pdgvvczg.cloudfront.net/performance_photos/thumbs/LUKE_KEMPNER_20_2_2019_HALF.jpg.800x800_q85_crop-smart_scale.jpg",
   "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
@@ -90,4 +90,3 @@ List profilPhotoUrl = [
   "https://i.pinimg.com/originals/d1/aa/88/d1aa88385b7b71ebb7d6886c8b376cad.jpg",
   "https://images.unsplash.com/photo-1568967729548-e3dbad3d37e0?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8&w=1000&q=80",
 ];
-

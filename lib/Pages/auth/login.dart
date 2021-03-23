@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
                       buildHeader(context),
                       buildInputs(context),
                       buildSignInButton(context),
-                      buildGoogleButton(context),
                       buildCreateAccButton(context),
                     ],
                   ),
@@ -249,34 +248,6 @@ class _LoginPageState extends State<LoginPage> {
           )
         ],
       ),
-    );
-  }
-
-  buildGoogleButton(BuildContext context) {
-    return FutureBuilder(
-      future: FirestoreService().bringAllUsers(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox(
-            height: 10,
-          );
-        }
-        allUsers = snapshot.data;
-        return Padding(
-          padding:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CreateAcc())),
-                  child: Text("Google",
-                      style: Theme.of(context).textTheme.bodyText2))
-            ],
-          ),
-        );
-      },
     );
   }
 
