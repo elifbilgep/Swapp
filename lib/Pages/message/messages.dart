@@ -7,6 +7,8 @@ import 'package:takas/models/swapie.dart';
 import 'package:takas/models/user.dart';
 import 'package:takas/services/firestore_service.dart';
 
+import '../home.dart';
+
 class Messages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,8 @@ class Messages extends StatelessWidget {
             IconButton(
                 icon: Icon(Icons.arrow_back_ios_outlined),
                 color: lightColor2,
-                onPressed: () => Navigator.pop(context)),
+                onPressed: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Home()))),
             SizedBox(
               width: 10,
             ),
@@ -73,7 +76,6 @@ class Messages extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              height: 130,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 boxShadow: [
@@ -85,15 +87,11 @@ class Messages extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              child: Container(
-                                decoration:
-                                    BoxDecoration(shape: BoxShape.circle),
-                                child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: NetworkImage(
-                                      profilPhotoUrl[index],
-                                    )),
-                              ),
+                              child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: NetworkImage(
+                                    profilPhotoUrl[index],
+                                  )),
                             ),
                             SizedBox(
                               width: 15,

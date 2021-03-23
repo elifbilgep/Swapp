@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:takas/Pages/message/messages.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
 import 'package:takas/models/swapie.dart';
@@ -33,29 +34,45 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: allBgColor,
+        body: FutureBuilder(
+          future: FirestoreService().bringUser(widget.activeUserId),
+          builder: (context, snapshot) {
+            if (onlyThatCategory.isEmpty) {
+              return Center(
+                child: Column(
+                  children: [
+                    buildHeader(context),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.35,
+                    ),
+                    Text("No Swappie avaiable"),
+                  ],
+                ),
+              );
+            }
 
-    return Scaffold(
-      backgroundColor: allBgColor,
-      body: FutureBuilder(
-        future: FirestoreService().bringUser(widget.activeUserId),
-        builder: (context, snapshot) {
-          if (onlyThatCategory.isEmpty) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return buildColumn(context, snapshot.data, widget.activeUserId);
-        },
+            return buildColumn(context, snapshot.data, widget.activeUserId);
+          },
+        ),
       ),
     );
   }
 
-  Column buildColumn(BuildContext context, _profileOwner, activeUserId) {
-    return Column(
+  Widget buildColumn(BuildContext context, _profileOwner, activeUserId) {
+    return Stack(
       children: [
+        Column(
+          children: [
+            SizedBox(
+              height: 100,
+            ),
+            buildCards(context, _profileOwner, activeUserId)
+          ],
+        ),
         buildHeader(context),
-        buildCards(context, _profileOwner, activeUserId)
       ],
     );
   }
@@ -80,20 +97,24 @@ class _DetailsState extends State<Details> {
   }
 
   buildHeader(BuildContext context) {
-    return Container(
-      color: darkHeaderColor,
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Text(
-              widget.categoryName,
-              style: Theme.of(context).textTheme.headline3,
-            ),
-          )
-        ],
+    return Positioned(
+      left: 0,
+      top: 0,
+      child: Container(
+        color: darkHeaderColor,
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Text(
+                widget.categoryName,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -122,14 +143,20 @@ class _DetailsState extends State<Details> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        height: 160,
-                        width: 130,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.network(
-                            onlyThatCategory[index].swapiePhotoUrl,
-                            fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Messages())),
+                        child: Container(
+                          height: 160,
+                          width: 130,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              onlyThatCategory[index].swapiePhotoUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

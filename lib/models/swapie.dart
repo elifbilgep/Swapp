@@ -27,6 +27,7 @@ class Swapie {
   factory Swapie.createFromDoc(DocumentSnapshot doc) {
     return Swapie(
         userRef: FirebaseFirestore.instance.collection("users").doc("id"),
+        name: doc.data()["name"],
         id: doc.id,
         swapiePhotoUrl: doc.data()["swapiePhotoUrl"],
         price: doc.data()["price"],

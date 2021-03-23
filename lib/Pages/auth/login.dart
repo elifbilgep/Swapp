@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:takas/models/user.dart';
 import 'package:takas/services/authorization.dart';
+import 'package:takas/services/firestore_service.dart';
 
 import '../../const.dart';
 import 'create_acc.dart';
@@ -12,10 +15,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool loading = false;
   String email, password;
   var errorMessage = "";
+  List<UserDetail> allUsers;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           Container(
-            width: 380,
+            width: 360,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -118,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Container(
-            width: 380,
+            width: 360,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -248,17 +253,30 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   buildGoogleButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-              onTap: _googleSign,
-              child:
-                  Text("Google", style: Theme.of(context).textTheme.bodyText2))
-        ],
-      ),
+    return FutureBuilder(
+      future: FirestoreService().bringAllUsers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SizedBox(
+            height: 10,
+          );
+        }
+        allUsers = snapshot.data;
+        return Padding(
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CreateAcc())),
+                  child: Text("Google",
+                      style: Theme.of(context).textTheme.bodyText2))
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -274,19 +292,5 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       return Center();
     }
-  }
-
-  void _googleSign() {
-    var _authService = Provider.of<Authorization>(context, listen: false);
-    try {
-    
-      _authService.signinWithGoogle();
-    } catch (hata) {
-      print("Hata:" + hata.toString());
-    }
-
-    setState(() {
-      loading = true;
-    });
   }
 }

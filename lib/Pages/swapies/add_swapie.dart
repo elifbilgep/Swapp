@@ -512,7 +512,11 @@ class _AddSwapieState extends State<AddSwapie> {
         imageQuality: 100);
 
     setState(() {
-      file = File(image.path);
+      try {
+        file = File(image.path);
+      } catch (hata) {
+        print(hata);
+      }
     });
   }
 
@@ -523,7 +527,11 @@ class _AddSwapieState extends State<AddSwapie> {
         maxWidth: 150,
         imageQuality: 80);
     setState(() {
-      file = File(image.path);
+      try {
+        file = File(image.path);
+      } catch (hata) {
+        print(hata);
+      }
     });
   }
 

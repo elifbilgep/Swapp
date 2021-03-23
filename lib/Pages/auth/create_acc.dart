@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/models/user.dart';
 import 'package:takas/services/firestore_service.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../const.dart';
 
@@ -19,11 +22,10 @@ class _CreateAccState extends State<CreateAcc> {
       givenCountry = "",
       givenCity = "";
   String hintCountry = "Country";
-  String hintCity = "First Country";
   List<DropdownMenuItem<String>> menuItems = List();
   var checked = false;
   String value1 = "";
-  String value2 = "";
+  String value2 = "City";
   bool disableddropDown = true;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -59,7 +61,7 @@ class _CreateAccState extends State<CreateAcc> {
                 Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+                      height: MediaQuery.of(context).size.height * 0.065,
                     ),
                     buildHeader(context),
                     SizedBox(
@@ -276,11 +278,10 @@ class _CreateAccState extends State<CreateAcc> {
                     ? null
                     : (_value) {
                         setState(() {
-                          hintCity = _value;
                           value2 = _value;
                         });
                       },
-                disabledHint: Text(hintCity),
+                disabledHint: Text("City"),
               ),
             ],
           ),
@@ -340,13 +341,15 @@ class _CreateAccState extends State<CreateAcc> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: _googleSign,
-            child: Text("Google",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .copyWith(decoration: TextDecoration.underline)),
-          )
+              onTap: _googleSign,
+              child: Shimmer.fromColors(
+                child: Text(
+                  "Google",
+                  style: TextStyle(fontSize: 25),
+                ),
+                baseColor: darkHeaderColor,
+                highlightColor: Colors.white,
+              ))
         ],
       ),
     );
@@ -438,9 +441,9 @@ class _CreateAccState extends State<CreateAcc> {
   void _googleSign() async {
     givenCountry = value1;
     givenCity = value2;
-    if (givenCity.isEmpty && givenCountry.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(content: Text("Fill only your Country and City")));
+    if (givenCity.isEmpty || givenCountry.isEmpty) {
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text("Fill your Country and City")));
     } else {
       var _authService = Provider.of<Authorization>(context, listen: false);
       UserDetail user = await _authService.signinWithGoogle();
@@ -452,7 +455,7 @@ class _CreateAccState extends State<CreateAcc> {
             city: givenCity,
             country: givenCountry,
             photoUrl: user.photoUrl,
-            nameAndLastName: givenNameAndSurname);
+            nameAndLastName: user.userName);
       }
       setState(() {
         loading = true;

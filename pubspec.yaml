@@ -39,6 +39,7 @@ dependencies:
   timeago:
   cached_network_image: ^2.4.1
   transparent_image: ^1.0.0
+  shimmer: ^1.1.2
 
 dev_dependencies:
   flutter_test:

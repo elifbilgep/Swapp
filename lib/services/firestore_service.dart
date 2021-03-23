@@ -31,6 +31,14 @@ class FirestoreService {
     });
   }
 
+  Future<List<UserDetail>> bringAllUsers() async {
+    QuerySnapshot userDocs = await _firestore.collection("users").get();
+    var users =
+        userDocs.docs.map((doc) => UserDetail.createFromDoc(doc)).toList();
+
+    return users;
+  }
+
   Future<UserDetail> bringUser(id) async {
     DocumentSnapshot doc = await _firestore.collection("users").doc(id).get();
     if (doc.exists) {

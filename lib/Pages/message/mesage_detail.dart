@@ -1,37 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
+import 'package:takas/models/swapie.dart';
+import 'package:takas/services/authorization.dart';
+import 'package:takas/services/firestore_service.dart';
 
-class MessageDetail extends StatelessWidget {
+class MessageDetail extends StatefulWidget {
+  @override
+  _MessageDetailState createState() => _MessageDetailState();
+}
+
+class _MessageDetailState extends State<MessageDetail> {
+  List<Swapie> userSwapie;
+  String clickedId;
+  List<Swapie> userSwapie2;
+  var clicked = "";
+  var selectedItem;
   @override
   Widget build(BuildContext context) {
+    String activeUserId = Provider.of<Authorization>(context).activeUserId;
     return SafeArea(
       child: Scaffold(
         backgroundColor: allBgColor,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Column(
-              children: [
-                buildHeader(context),
-                Container(
-                  height: 400,
-                  child: ListView(
-                    children: [
-                      buildMessage(context),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            buildMessageBox(context),
-          ],
+        body: FutureBuilder(
+          future: FirestoreService().bringUserSwapies(activeUserId),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            userSwapie = snapshot.data;
+            return buildStack(context, snapshot.data, activeUserId);
+          },
         ),
       ),
     );
   }
 
-  buildHeader(BuildContext context) {
+  Stack buildStack(BuildContext context, userSwapie, activeUserId) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Column(
+          children: [
+            buildHeader(context, userSwapie, activeUserId),
+            Container(
+              height: 400,
+              child: ListView(
+                children: [
+                  buildMessage(context),
+                ],
+              ),
+            )
+          ],
+        ),
+        buildMessageBox(context),
+      ],
+    );
+  }
+
+  buildHeader(BuildContext context, userSwapie, activeUserId) {
     return Container(
       decoration: BoxDecoration(
           color: darkHeaderColor,
@@ -89,11 +119,16 @@ class MessageDetail extends StatelessWidget {
                   Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        "https://images.gardrops.com/uploads/134640/user_items/134640400-s1-iphone-product-595b89361554c.png",
-                        fit: BoxFit.cover,
-                        height: 200,
-                        width: 120,
+                      child: GestureDetector(
+                        onTap: () => showDialogg(activeUserId, userSwapie),
+                        child: clicked == ""
+                            ? Text("Pick to Swap")
+                            : Image.network(
+                                clicked,
+                                fit: BoxFit.cover,
+                                height: 200,
+                                width: 120,
+                              ),
                       ),
                     ),
                   )
@@ -188,7 +223,7 @@ class MessageDetail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20), color: lightColor),
                 alignment: Alignment.topLeft,
                 height: 45,
-                width: 200,
+                width: 300,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -197,7 +232,7 @@ class MessageDetail extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        "I will meet you there",
+                        "So will yo be at the mall at 9 am?",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
@@ -217,7 +252,7 @@ class MessageDetail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20), color: lightColor),
                 alignment: Alignment.topLeft,
                 height: 45,
-                width: 200,
+                width: 60,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -226,7 +261,7 @@ class MessageDetail extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        "I will meet you there",
+                        "Yes",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
@@ -248,17 +283,119 @@ class MessageDetail extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
+                    "https://st.depositphotos.com/1008939/1880/i/600/depositphotos_18807295-stock-photo-portrait-of-handsome-man.jpg",
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.6),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  )
+                ]),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
                     "https://lh3.googleusercontent.com/a-/AOh14GhpbgwD1KDwKIt0LpmxYi96KlEob210iFw7RO2JjCg=s96-c",
                   ),
                 ),
               ),
               SizedBox(
                 width: 10,
-              )
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), color: lightColor),
+                alignment: Alignment.topLeft,
+                height: 45,
+                width: 210,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Center(
+                      child: Text(
+                        "I will meet you there",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  showDialogg(activeUserId, List<Swapie> userSwapie) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Pick to Swap',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          content: Container(
+              height: 200,
+              width: 250,
+              child: ListView.builder(
+                itemCount: userSwapie.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          setState(() {
+                            clicked = userSwapie[index].swapiePhotoUrl;
+                          });
+                        },
+                        child: Image.network(
+                          userSwapie[index].swapiePhotoUrl,
+                          height: 200,
+                          width: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              )),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Cancel',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
