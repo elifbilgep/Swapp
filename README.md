@@ -43,4 +43,5 @@ samples, guidance on mobile development, and a full API reference.
 - [Mert Beyaz](https://www.linkedin.com/in/mert-beyaz-a26096206)
 
 </p>
+<hr>
 
