@@ -5,6 +5,7 @@
     </p>
 </div>
 **While designing our application, We intend to generate a solution to the Responsible Consumption and Production issue which is a determined issue by the United Nations. Our application provides its users to barter your items that you don't use or don't need with the items that you might need. Bartering your item with another item that you might avail of will be beneficial for the person that you swapped your item, and this way, there will be no desired item purchase redundantly for both of the sides. This is beneficial for either you or the other user.**
+
 Furthermore, it will be a good point to reduce the environmental pollution coming up from production of factory-made products. Swapp as a usable tool to diminish the unnecessary purchases and the shopping spree going on the rampage, will be advancing and improving with the new categories and the updates according to the users' needs in a long view.
 <p align="center">
         <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Every_day_thousands_of_people_are_enthusiast_for_something_and_shopping._They_throw_away_what_they_g.png" alt="">
