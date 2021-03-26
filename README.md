@@ -31,7 +31,6 @@ samples, guidance on mobile development, and a full API reference.
         <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/fotolu.png" alt="">
 </p>
 
-#### Members Linkedin
 
 <p>
     
