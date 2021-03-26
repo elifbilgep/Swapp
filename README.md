@@ -30,8 +30,11 @@ samples, guidance on mobile development, and a full API reference.
 <p align="center">
         <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/fotolu.png" alt="">
 </p>
--<a href="https://www.linkedin.com/in/elif-bilge-parlak-b35818196/">Elif Bilge Parlak</a>
--<a href="https://www.linkedin.com/in/ekin-kar-9028a5194/">Ekin Kar</a> 
--<a href="https://www.linkedin.com/in/g%C3%BCl%C5%9Fen-beyza-y%C4%B1lmazer-6391551a5/">Gülşen Beyza Yılmazer</a> 
--<a href="">Mert Beyaz</a>
+<a href="https://www.linkedin.com/in/elif-bilge-parlak-b35818196/">Elif Bilge Parlak</a>
+
+<a href="https://www.linkedin.com/in/ekin-kar-9028a5194/">Ekin Kar</a> 
+
+<a href="https://www.linkedin.com/in/g%C3%BCl%C5%9Fen-beyza-y%C4%B1lmazer-6391551a5/">Gülşen Beyza Yılmazer</a> 
+
+<a href="">Mert Beyaz</a>
 
