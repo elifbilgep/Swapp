@@ -11,7 +11,7 @@
  
  
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/son.png" alt="">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Swapp_2.png" alt="">
 </p>
 
 ## Getting Started
