@@ -427,7 +427,7 @@ class _AddSwapieState extends State<AddSwapie> {
 
         await FirestoreService().createSwapie(
           photoUrl: uploadedPhotoUrl,
-          about: givenAbout,
+          about: givenAbout,    
           name: givenName,
           category: givenCategory,
           price: givenPrice,

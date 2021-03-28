@@ -14,10 +14,8 @@ class Redirecting extends StatefulWidget {
 class _RedirectingState extends State<Redirecting> {
   String _activeUserId;
 
-
   @override
   void initState() {
-
     super.initState();
   }
 

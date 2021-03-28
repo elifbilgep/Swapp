@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:takas/const.dart';
-import 'package:takas/lists.dart';
 import 'package:takas/models/swapie.dart';
 import 'package:takas/services/authorization.dart';
 import 'package:takas/services/firestore_service.dart';

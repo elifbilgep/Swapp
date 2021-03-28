@@ -9,8 +9,6 @@ import 'package:takas/services/authorization.dart';
 import 'package:takas/services/firestore_service.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../lists.dart';
-
 class Profile extends StatefulWidget {
   final comingIdFromSearch;
 
@@ -21,7 +19,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  List<Swapie> _swapies = [];
+
   String _activeUserId;
   UserDetail _profileOwner;
   var clickedSwapieId;
@@ -30,7 +28,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
   }
 

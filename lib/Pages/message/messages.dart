@@ -1,12 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:takas/Pages/message/mesage_detail.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
-import 'package:takas/models/swapie.dart';
-import 'package:takas/models/user.dart';
-import 'package:takas/services/firestore_service.dart';
-
 import '../home.dart';
 
 class Messages extends StatelessWidget {
