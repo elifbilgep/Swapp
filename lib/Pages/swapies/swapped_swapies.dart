@@ -8,7 +8,7 @@ class Swapped extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: allBgColor,
+        backgroundColor: Colors.transparent,
         body: Stack(
           children: [
             Column(

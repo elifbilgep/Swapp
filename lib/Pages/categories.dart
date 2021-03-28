@@ -8,16 +8,19 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                buildHeader(context),
-                buildCategories(context),
-              ],
+      child: Container(
+        decoration: BoxDecoration(color: Color(0xFFF5E3E3)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  buildHeader(context),
+                  buildCategories(context),
+                ],
+              ),
             ),
           ),
         ),
@@ -34,12 +37,15 @@ class Categories extends StatelessWidget {
           IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: lightColor,
+                color: bgDarkOne,
               ),
               onPressed: null),
           Text(
             "Categories",
-            style: Theme.of(context).textTheme.headline2,
+            style: Theme.of(context)
+                .textTheme
+                .headline2
+                .copyWith(color: bgDarkOne),
           ),
         ],
       ),
@@ -56,7 +62,7 @@ class Categories extends StatelessWidget {
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
           ),
-          itemCount: 5,
+          itemCount: 6,
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(
@@ -67,7 +73,7 @@ class Categories extends StatelessWidget {
                 children: [
                   Icon(
                     icons[index],
-                    color: allBgColor,
+                    color: bgDarkOne,
                     size: 50,
                   ),
                   SizedBox(
@@ -78,7 +84,7 @@ class Categories extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2
-                        .copyWith(color: allBgColor),
+                        .copyWith(color: bgDarkOne),
                   )
                 ],
               ),

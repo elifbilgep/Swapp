@@ -38,23 +38,26 @@ class _HomeState extends State<Home> {
         Provider.of<Authorization>(context, listen: false).activeUserId;
     Size size = MediaQuery.of(context).size;
     return SafeArea(
-      child: Scaffold(
-          bottomNavigationBar: bottomNavBar(context),
-          resizeToAvoidBottomInset: false,
-          backgroundColor: allBgColor,
-          body: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: pageController,
-            children: [
-              buildHomePage(size),
-              Categories(),
-              AddSwapie(),
-              Messages(),
-              Profile(
-                comingIdFromSearch: activeUserIdFromProvider,
-              )
-            ],
-          )),
+      child: Container(
+        decoration: BoxDecoration(gradient: allBgColor),
+        child: Scaffold(
+            bottomNavigationBar: bottomNavBar(context),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.transparent,
+            body: PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: pageController,
+              children: [
+                buildHomePage(size),
+                Categories(),
+                AddSwapie(),
+                Messages(),
+                Profile(
+                  comingIdFromSearch: activeUserIdFromProvider,
+                )
+              ],
+            )),
+      ),
     );
   }
 
@@ -118,7 +121,7 @@ class _HomeState extends State<Home> {
               children: [
                 Icon(
                   Icons.search,
-                  color: lightColor,
+                  color: bgDarkOne,
                 ),
                 SizedBox(
                   width: 10,
@@ -166,7 +169,7 @@ class _HomeState extends State<Home> {
                         Icon(
                           icons[index],
                           size: 35,
-                          color: allBgColor,
+                          color: bgDarkOne,
                         ),
                         SizedBox(
                           height: 5,
@@ -196,7 +199,7 @@ class _HomeState extends State<Home> {
           Text(
             "Most Seen",
             style: TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                color: bgDarkOne, fontSize: 20, fontWeight: FontWeight.bold),
           )
         ],
       ),
@@ -365,7 +368,10 @@ class _HomeState extends State<Home> {
                               "${swapieData[index].price}",
                               style: Theme.of(context).textTheme.headline4,
                             ),
-                            Icon(Icons.attach_money)
+                            Icon(
+                              Icons.attach_money,
+                              color: bgDarkOne,
+                            )
                           ],
                         ),
                       ),
@@ -386,7 +392,7 @@ class _HomeState extends State<Home> {
           Text(
             "Most Recent",
             style: TextStyle(
-                color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+                color: bgDarkOne, fontSize: 22, fontWeight: FontWeight.bold),
           )
         ],
       ),
@@ -397,16 +403,26 @@ class _HomeState extends State<Home> {
     return SizedBox(
       height: 70,
       child: Theme(
-        data: Theme.of(context).copyWith(canvasColor: lightColor2),
+        data: Theme.of(context).copyWith(
+          canvasColor: darkHeaderColor,
+        ),
         child: BottomNavigationBar(
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.menu), label: "Categories"),
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Swapie"),
+                icon: Icon(
+                  Icons.home,
+                  color: darkColor2,
+                ),
+                label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.message_rounded), label: "Messages"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+                icon: Icon(Icons.menu, color: darkColor2), label: "Categories"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add, color: darkColor2), label: "Add Swapie"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message_rounded, color: darkColor2),
+                label: "Messages"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person, color: darkColor2), label: "Profile"),
           ],
           onTap: (choosenPageNo) {
             setState(() {

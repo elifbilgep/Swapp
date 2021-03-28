@@ -15,22 +15,25 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: Column(
-          children: [
-            buildSearchBar(context),
-            searchResult != null
-                ? buildResults(context)
-                : Expanded(
-                    child: Center(
-                      child: Text(
-                        "No search, yet..",
-                        textAlign: TextAlign.center,
-                      ), 
-                    ),
-                  )
-          ],
+      child: Container(
+        decoration: BoxDecoration(gradient: allBgColor),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: [
+              buildSearchBar(context),
+              searchResult != null
+                  ? buildResults(context)
+                  : Expanded(
+                      child: Center(
+                        child: Text(
+                          "No search, yet..",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+            ],
+          ),
         ),
       ),
     );

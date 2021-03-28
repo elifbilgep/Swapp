@@ -10,15 +10,18 @@ class ProfileSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: Center(
-          child: ListView(
-            children: [
-              buildHeader(context),
-              buildUserPhotoAndInfo(context),
-              buildButtons(context),
-            ],
+      child: Container(
+        decoration: BoxDecoration(gradient: allBgColor),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: ListView(
+              children: [
+                buildHeader(context),
+                buildUserPhotoAndInfo(context),
+                buildButtons(context),
+              ],
+            ),
           ),
         ),
       ),

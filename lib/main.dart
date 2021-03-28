@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           accentColor: Colors.grey,
+          primarySwatch: Colors.grey,
           accentColorBrightness: Brightness.light,
           textTheme: TextTheme(
             headline1: TextStyle(
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
             headline2: TextStyle(
                 fontSize: 26, fontFamily: "Comfortaa", color: lightTextColor),
             headline3: TextStyle(
-                fontSize: 35, fontFamily: "Comfortaa", color: lightTextColor),
+                fontSize: 35, fontFamily: "Comfortaa", color: lightColor),
             headline4: TextStyle(
                 fontSize: 22, fontFamily: "Comfortaa", color: darkHeaderColor),
             headline5: TextStyle(
@@ -37,9 +38,9 @@ class MyApp extends StatelessWidget {
             headline6: TextStyle(
                 fontSize: 16, fontFamily: "Comfortaa", color: darkHeaderColor),
             bodyText1: TextStyle(
-                fontSize: 16, fontFamily: "Comfortaa", color: lightTextColor),
+                fontSize: 16, fontFamily: "Comfortaa", color: lightColor),
             bodyText2: TextStyle(
-                fontSize: 20, fontFamily: "Comfortaa", color: lightTextColor),
+                fontSize: 20, fontFamily: "Comfortaa", color: bgDarkOne),
           ),
         ),
         debugShowCheckedModeBanner: false,

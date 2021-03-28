@@ -19,7 +19,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   String _activeUserId;
   UserDetail _profileOwner;
   var clickedSwapieId;
@@ -28,7 +27,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -37,19 +35,22 @@ class _ProfileState extends State<Profile> {
     FirestoreService().bringUser(widget.comingIdFromSearch);
     _activeUserId = Provider.of<Authorization>(context).activeUserId;
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: FutureBuilder(
-          future: FirestoreService().bringUser(widget.comingIdFromSearch),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            _profileOwner = snapshot.data;
-            return buildProfile(context, _profileOwner, _activeUserId);
-          },
+      child: Container(
+        color: darkColor2,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FutureBuilder(
+            future: FirestoreService().bringUser(widget.comingIdFromSearch),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              _profileOwner = snapshot.data;
+              return buildProfile(context, _profileOwner, _activeUserId);
+            },
+          ),
         ),
       ),
     );
@@ -116,11 +117,11 @@ class _ProfileState extends State<Profile> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Container(
               decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                BoxShadow(color: Colors.grey.shade900, blurRadius: 5)
+                BoxShadow(color: Colors.grey.shade900, blurRadius: 2)
               ]),
               child: Container(
-                height: 60,
-                width: 60,
+                height: 80,
+                width: 80,
                 decoration: BoxDecoration(shape: BoxShape.circle),
                 child: profileData.photoUrl.isEmpty
                     ? ClipRRect(
@@ -236,7 +237,7 @@ class _ProfileState extends State<Profile> {
                           alignment: Alignment.bottomRight,
                           child: Container(
                             decoration: BoxDecoration(
-                                color: darkColor2,
+                                color: midColor,
                                 borderRadius: BorderRadius.circular(20)),
                             height: 50,
                             width: 130,
@@ -246,7 +247,7 @@ class _ProfileState extends State<Profile> {
                                 Text(mySwapies[index].price.toString()),
                                 Icon(
                                   Icons.attach_money,
-                                  color: lightColor,
+                                  color: bgDarkOne,
                                 )
                               ],
                             ),

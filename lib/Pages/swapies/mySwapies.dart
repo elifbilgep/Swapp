@@ -7,24 +7,27 @@ class MySwapies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                buildHeader(context),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      buildSwapies(context),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            buildBottomNavBar(context),
-          ],
+      child: Container(
+         decoration: BoxDecoration(gradient: allBgColor),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              Column(
+                children: [
+                  buildHeader(context),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        buildSwapies(context),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              buildBottomNavBar(context),
+            ],
+          ),
         ),
       ),
     );

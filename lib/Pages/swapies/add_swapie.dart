@@ -29,26 +29,29 @@ class _AddSwapieState extends State<AddSwapie> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: allBgColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              loading
-                  ? LinearProgressIndicator()
-                  : SizedBox(
-                      height: 0,
-                    ),
-              buildHeader(context),
-              buildPhotoArea(context, file),
-              //buildAddPhotoButton(context),
-              buildCategories(context),
-              buildTextFields(context),
+      child: Container(
+        decoration: BoxDecoration(color: darkColor2),
+        child: Scaffold(
+          key: _scaffoldKey,
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                loading
+                    ? LinearProgressIndicator()
+                    : SizedBox(
+                        height: 0,
+                      ),
+                buildHeader(context),
+                buildPhotoArea(context, file),
+                //buildAddPhotoButton(context),
+                buildCategories(context),
+                buildTextFields(context),
 
-              buildPrice(context),
-              buildSaveButton(context),
-            ],
+                buildPrice(context),
+                buildSaveButton(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -213,12 +216,12 @@ class _AddSwapieState extends State<AddSwapie> {
                                   ? Theme.of(context)
                                       .textTheme
                                       .bodyText2
-                                      .copyWith(fontSize: 17)
+                                      .copyWith(
+                                          fontSize: 17, color: lightColor2)
                                   : Theme.of(context)
                                       .textTheme
                                       .bodyText2
-                                      .copyWith(
-                                          color: lightColor2, fontSize: 17),
+                                      .copyWith(fontSize: 17),
                             ),
                           )
                         ],
@@ -273,7 +276,7 @@ class _AddSwapieState extends State<AddSwapie> {
                   ),
                 ),
                 filled: true,
-                fillColor: lightColor,
+                fillColor: midColor,
               ),
             ),
             Row(
@@ -308,7 +311,7 @@ class _AddSwapieState extends State<AddSwapie> {
                   ),
                 ),
                 filled: true,
-                fillColor: lightColor,
+                fillColor: midColor,
               ),
             )
           ],
@@ -427,7 +430,7 @@ class _AddSwapieState extends State<AddSwapie> {
 
         await FirestoreService().createSwapie(
           photoUrl: uploadedPhotoUrl,
-          about: givenAbout,    
+          about: givenAbout,
           name: givenName,
           category: givenCategory,
           price: givenPrice,

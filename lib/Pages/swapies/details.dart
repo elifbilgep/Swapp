@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:takas/Pages/message/messages.dart';
+import 'package:takas/Pages/swapies/swap_it.dart';
 import 'package:takas/const.dart';
 import 'package:takas/lists.dart';
 import 'package:takas/models/swapie.dart';
@@ -34,27 +35,30 @@ class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: FutureBuilder(
-          future: FirestoreService().bringUser(widget.activeUserId),
-          builder: (context, snapshot) {
-            if (onlyThatCategory.isEmpty) {
-              return Center(
-                child: Column(
-                  children: [
-                    buildHeader(context),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.35,
-                    ),
-                    Text("No Swappie avaiable"),
-                  ],
-                ),
-              );
-            }
+      child: Container(
+        decoration: BoxDecoration(color: midColor),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FutureBuilder(
+            future: FirestoreService().bringUser(widget.activeUserId),
+            builder: (context, snapshot) {
+              if (onlyThatCategory.isEmpty) {
+                return Center(
+                  child: Column(
+                    children: [
+                      buildHeader(context),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                      ),
+                      Text("No Swappie avaiable"),
+                    ],
+                  ),
+                );
+              }
 
-            return buildColumn(context, snapshot.data, widget.activeUserId);
-          },
+              return buildColumn(context, snapshot.data, widget.activeUserId);
+            },
+          ),
         ),
       ),
     );
@@ -146,7 +150,7 @@ class _DetailsState extends State<Details> {
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Messages())),
+                                builder: (context) => SwapPage())),
                         child: Container(
                           height: 160,
                           width: 130,

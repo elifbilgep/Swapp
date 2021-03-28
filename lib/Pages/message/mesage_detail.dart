@@ -20,19 +20,11 @@ class _MessageDetailState extends State<MessageDetail> {
   Widget build(BuildContext context) {
     String activeUserId = Provider.of<Authorization>(context).activeUserId;
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: FutureBuilder(
-          future: FirestoreService().bringUserSwapies(activeUserId),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            userSwapie = snapshot.data;
-            return buildStack(context, snapshot.data, activeUserId);
-          },
+      child: Container(
+        decoration: BoxDecoration(color: midColor),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: buildStack(context, userSwapie, activeUserId),
         ),
       ),
     );
@@ -110,27 +102,6 @@ class _MessageDetailState extends State<MessageDetail> {
                       ),
                     ),
                   ),
-                  Icon(
-                    Icons.swap_horiz,
-                    color: lightColor,
-                    size: 40,
-                  ),
-                  Container(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: GestureDetector(
-                        onTap: () => showDialogg(activeUserId, userSwapie),
-                        child: clicked == ""
-                            ? Text("Pick to Swap")
-                            : Image.network(
-                                clicked,
-                                fit: BoxFit.cover,
-                                height: 200,
-                                width: 120,
-                              ),
-                      ),
-                    ),
-                  )
                 ],
               ),
               height: 150,
@@ -158,7 +129,7 @@ class _MessageDetailState extends State<MessageDetail> {
             ),
             Icon(
               Icons.camera_alt,
-              color: darkHeaderColor,
+              color: lightColor,
               size: 35,
             ),
             SizedBox(
@@ -183,7 +154,7 @@ class _MessageDetailState extends State<MessageDetail> {
             Icon(
               Icons.send,
               size: 35,
-              color: darkHeaderColor,
+              color: lightColor,
             )
           ],
         ),
@@ -201,7 +172,7 @@ class _MessageDetailState extends State<MessageDetail> {
               Container(
                 decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.grey.withOpacity(0.6),
                     spreadRadius: 1,
                     blurRadius: 10,
                     offset: Offset(0, 3),
@@ -210,7 +181,7 @@ class _MessageDetailState extends State<MessageDetail> {
                 child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    "https://lh3.googleusercontent.com/a-/AOh14GhpbgwD1KDwKIt0LpmxYi96KlEob210iFw7RO2JjCg=s96-c",
+                    "https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg",
                   ),
                 ),
               ),
@@ -273,7 +244,7 @@ class _MessageDetailState extends State<MessageDetail> {
               Container(
                 decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.grey.withOpacity(0.6),
                     spreadRadius: 1,
                     blurRadius: 10,
                     offset: Offset(0, 3),
@@ -299,7 +270,7 @@ class _MessageDetailState extends State<MessageDetail> {
               Container(
                 decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.grey.withOpacity(0.6),
                     spreadRadius: 1,
                     blurRadius: 10,
                     offset: Offset(0, 3),
@@ -308,7 +279,7 @@ class _MessageDetailState extends State<MessageDetail> {
                 child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    "https://lh3.googleusercontent.com/a-/AOh14GhpbgwD1KDwKIt0LpmxYi96KlEob210iFw7RO2JjCg=s96-c",
+                    "https://ath2.unileverservices.com/wp-content/uploads/sites/4/2020/02/IG-annvmariv-1024x1016.jpg",
                   ),
                 ),
               ),

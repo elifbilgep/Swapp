@@ -8,9 +8,12 @@ class Messages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      backgroundColor: allBgColor,
-      body: Center(child: buildColumn(context)),
+        child: Container(
+      decoration: BoxDecoration(color: darkColor2),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(child: buildColumn(context)),
+      ),
     ));
   }
 
@@ -77,7 +80,7 @@ class Messages extends StatelessWidget {
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.6),
                                     spreadRadius: 1,
-                                    blurRadius: 10,
+                                    blurRadius: 2,
                                     offset: Offset(0, 3),
                                   )
                                 ],
@@ -149,10 +152,11 @@ class Messages extends StatelessWidget {
                           ],
                         ),
                         Divider(
-                          color: lightColor,
+                          color: bgDarkOne,
                           height: 30,
                           indent: 20,
                           endIndent: 20,
+                          thickness: 1,
                         )
                       ],
                     )),

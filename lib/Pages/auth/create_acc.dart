@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:takas/services/authorization.dart';
@@ -68,7 +66,6 @@ class _CreateAccState extends State<CreateAcc> {
                     ),
                     buildTextFormFields(context),
                     buildSignUpButton(context),
-                    
                   ],
                 ),
                 _loadingAnimation()
@@ -86,7 +83,10 @@ class _CreateAccState extends State<CreateAcc> {
       children: [
         Text(
           "Welcome to Swap",
-          style: Theme.of(context).textTheme.headline1,
+          style: Theme.of(context)
+              .textTheme
+              .headline1
+              .copyWith(fontWeight: FontWeight.w400, fontSize: 35),
         )
       ],
     );
@@ -110,6 +110,7 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2,
                   validator: validatorNameSurname,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
@@ -145,6 +146,7 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2,
                   validator: validatorUserName,
                   autofocus: false,
                   cursorColor: Colors.grey.shade800,
@@ -180,6 +182,7 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2,
                   keyboardType: TextInputType.emailAddress,
                   validator: validatorEmail,
                   autofocus: false,
@@ -215,6 +218,7 @@ class _CreateAccState extends State<CreateAcc> {
                   ),
                 ),
                 TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2,
                   validator: validatorPassword,
                   obscureText: true,
                   autofocus: false,
@@ -241,11 +245,15 @@ class _CreateAccState extends State<CreateAcc> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               DropdownButton<String>(
+                dropdownColor: lightColor,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: darkColor),
-                hint: Text(hintCountry),
+                    .copyWith(color: bgDarkOne),
+                hint: Text(
+                  hintCountry,
+                  style: TextStyle(color: lightColor, fontSize: 20),
+                ),
                 items: [
                   DropdownMenuItem<String>(
                     value: "Turkey",
@@ -270,8 +278,11 @@ class _CreateAccState extends State<CreateAcc> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: darkColor),
-                hint: Text(value2),
+                    .copyWith(color: bgDarkOne),
+                hint: Text(
+                  value2,
+                  style: TextStyle(color: bgDarkOne, fontSize: 20),
+                ),
                 items: menuItems,
                 onChanged: disableddropDown
                     ? null
@@ -280,7 +291,10 @@ class _CreateAccState extends State<CreateAcc> {
                           value2 = _value;
                         });
                       },
-                disabledHint: Text("City"),
+                disabledHint: Text(
+                  "City",
+                  style: TextStyle(color: lightColor, fontSize: 20),
+                ),
               ),
             ],
           ),
@@ -320,20 +334,21 @@ class _CreateAccState extends State<CreateAcc> {
           height: 50,
           width: 300,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: signAndCreateButtonColor),
+              borderRadius: BorderRadius.circular(20), color: darkColor2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Sign Up", style: Theme.of(context).textTheme.bodyText2)
+              Text("Sign Up",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .copyWith(color: lightColor))
             ],
           ),
         ),
       ),
     );
   }
-
-  
 
   void populateTurkey() {
     for (String key in turkey.keys) {
@@ -417,8 +432,6 @@ class _CreateAccState extends State<CreateAcc> {
       }
     }
   }
-
-  
 
   String validatorUserName(String inputValue) {
     if (inputValue.isEmpty) {

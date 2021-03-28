@@ -1,77 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:takas/Pages/message/mesage_detail.dart';
 import 'package:takas/const.dart';
+import 'package:takas/models/swapie.dart';
+import 'package:takas/models/user.dart';
+import 'package:takas/services/authorization.dart';
+import 'package:takas/services/firestore_service.dart';
 
-class SwapPage extends StatelessWidget {
+class SwapPage extends StatefulWidget {
+  @override
+  _SwapPageState createState() => _SwapPageState();
+}
+
+class _SwapPageState extends State<SwapPage> {
+  String activeUserId;
+  List<Swapie> swapies;
+  String choosenUrl;
+  var clicked = "";
+  int selectedItemIndex;
+  UserDetail owner;
   @override
   Widget build(BuildContext context) {
+    activeUserId = Provider.of<Authorization>(context).activeUserId;
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: allBgColor,
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                buildHeader(context),
-                buildCard(context),
-                buildCard(context),
-              ],
-            ),
-            buildBottomNavBar(context),
-            buildSwapButton(context),
-          ],
+      child: Container(
+        decoration: BoxDecoration(color: midColor),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FutureBuilder(
+            future: FirestoreService().bringUserSwapies(activeUserId),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              swapies = snapshot.data;
+              return buildStack(context);
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget buildBottomNavBar(context) {
-    Size size = MediaQuery.of(context).size;
-    return Positioned(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade800,
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: Offset(0, 3),
-          )
-        ], borderRadius: BorderRadius.circular(20), color: lightColor2),
-        height: size.height * 0.1,
-        width: size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+  Stack buildStack(BuildContext context) {
+    return Stack(
+      children: [
+        Column(
           children: [
-            Icon(
-              Icons.home,
-              size: 25,
-              color: lightColor,
+            buildHeader(context),
+            buildCard1(context),
+            SizedBox(
+              height: 25,
             ),
-            Icon(
-              Icons.menu_outlined,
-              size: 25,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.add,
-              size: 50,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.messenger_sharp,
-              size: 20,
-              color: lightColor,
-            ),
-            Icon(
-              Icons.person,
-              size: 25,
-              color: lightColor,
-            )
+            buildCard2(context),
           ],
         ),
-      ),
-      left: 15,
-      bottom: 10,
-      right: 15,
+        buildSwapButton(context),
+      ],
     );
   }
 
@@ -84,9 +69,14 @@ class SwapPage extends StatelessWidget {
         padding: const EdgeInsets.only(left: 25.0),
         child: Row(
           children: [
-            Icon(
-              Icons.arrow_back_ios,
-              color: lightColor,
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: lightColor,
+              ),
             ),
             SizedBox(width: 10),
             Text(
@@ -99,12 +89,11 @@ class SwapPage extends StatelessWidget {
     );
   }
 
-  buildCard(BuildContext context) {
+  buildCard1(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5.0, left: 15, right: 15),
+      padding: const EdgeInsets.only(top: 5.0, left: 10, right: 10),
       child: Container(
-        height: 250,
-        width: 450,
+        height: 280,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: lightColor,
@@ -121,9 +110,10 @@ class SwapPage extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      "https://images.gardrops.com/uploads/2351209/user_items/23512097-s4-file-6031053d52ea3.jpeg",
+                      "https://firebasestorage.googleapis.com/v0/b/swapp-77137.appspot.com/o/pictures%2Fswappies%2Fswappie_525fad8c-4f47-49d2-8398-6b5ced2949bf.jpg?alt=media&token=c0908133-cba4-4082-bc41-1b3c4489f14c",
+                      height: 160,
+                      width: 130,
                       fit: BoxFit.cover,
-                      height: 150,
                     ),
                   ),
                   SizedBox(
@@ -133,7 +123,7 @@ class SwapPage extends StatelessWidget {
                     children: [
                       Container(
                         height: 150,
-                        width: 240,
+                        width: 170,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -158,7 +148,7 @@ class SwapPage extends StatelessWidget {
                                   width: 5,
                                 ),
                                 Text(
-                                  "Books",
+                                  "Clothing",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -176,7 +166,7 @@ class SwapPage extends StatelessWidget {
                                   width: 5,
                                 ),
                                 Text(
-                                  "200-300",
+                                  "50",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -227,9 +217,180 @@ class SwapPage extends StatelessWidget {
                       ),
                       Text("I have wear it only 2 times",
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: darkHeaderColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w100))
+                              color: bgDarkOne,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400))
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  buildCard2(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0, left: 10, right: 10),
+      child: Container(
+        height: 280,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: lightColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: GestureDetector(
+                      onTap: () {
+                        return buildShowDialog();
+                      },
+                      child: Image.network(
+                        clicked == ""
+                            ? "https://i.pinimg.com/564x/61/62/5b/61625b91c47e4a58d0b1d338a8fd0596.jpg"
+                            : clicked,
+                        fit: BoxFit.cover,
+                        height: 160,
+                        width: 130,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  selectedItemIndex == null
+                                      ? "..."
+                                      : swapies[selectedItemIndex].name,
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
+                                Icon(Icons.more_vert)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.checkroom,
+                                  color: darkHeaderColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  selectedItemIndex == null
+                                      ? "..."
+                                      : swapies[selectedItemIndex].category,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(color: darkHeaderColor),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.attach_money,
+                                  color: darkHeaderColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  selectedItemIndex == null
+                                      ? "..."
+                                      : swapies[selectedItemIndex]
+                                          .price
+                                          .toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(color: darkHeaderColor),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: darkHeaderColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                selectedItemIndex == null
+                                    ? Text("...")
+                                    : FutureBuilder(
+                                        future: FirestoreService()
+                                            .bringUser(activeUserId),
+                                        builder: (context, snapshot) {
+                                          owner = snapshot.data;
+                                          return Text(
+                                            owner.city,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .copyWith(
+                                                    color: darkHeaderColor),
+                                          );
+                                        })
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 70,
+                  width: 270,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "About:",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      selectedItemIndex == null
+                          ? Text("...")
+                          : Text(swapies[selectedItemIndex].about,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: bgDarkOne,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400))
                     ],
                   ),
                 ),
@@ -243,20 +404,80 @@ class SwapPage extends StatelessWidget {
 
   buildSwapButton(context) {
     return Positioned(
-      top: MediaQuery.of(context).size.height / 2.1,
-      left: MediaQuery.of(context).size.height / 4,
-      child: Container(
-        height: 60,
-        width: 60,
-        decoration: BoxDecoration(color: lightColor2, shape: BoxShape.circle),
-        child: Center(
-          child: Icon(
-            Icons.swap_vert,
-            size: 35,
-            color: lightColor,
+      top: MediaQuery.of(context).size.height / 2.15,
+      left: MediaQuery.of(context).size.height / 4.5,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MessageDetail())),
+        child: Container(
+          height: 85,
+          width: 85,
+          decoration: BoxDecoration(color: darkColor, shape: BoxShape.circle),
+          child: Center(
+            child: Icon(
+              Icons.swap_vert,
+              size: 50,
+              color: lightColor,
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  buildShowDialog() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Pick to Swap',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          content: Container(
+              height: 200,
+              width: 250,
+              child: ListView.builder(
+                itemCount: swapies.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedItemIndex = index;
+                            clicked = swapies[index].swapiePhotoUrl;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Image.network(
+                          swapies[index].swapiePhotoUrl,
+                          height: 200,
+                          width: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              )),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Cancel',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

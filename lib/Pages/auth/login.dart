@@ -25,27 +25,30 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       decoration: BoxDecoration(gradient: bgGarident),
       child: SafeArea(
-        child: Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      buildHeader(context),
-                      buildInputs(context),
-                      buildSignInButton(context),
-                      buildCreateAccButton(context),
-                    ],
-                  ),
-                  _loadingAnimation(),
-                ],
+        child: Container(
+          decoration: BoxDecoration(gradient: bgGarident),
+          child: Scaffold(
+            key: _scaffoldKey,
+            backgroundColor: Colors.transparent,
+            body: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        buildHeader(context),
+                        buildInputs(context),
+                        buildSignInButton(context),
+                        buildCreateAccButton(context),
+                      ],
+                    ),
+                    _loadingAnimation(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -69,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline1.copyWith(
                     fontSize: 50,
-                    color: Colors.grey.shade200,
+                    color: lightColor,
                     fontWeight: FontWeight.normal),
               ),
               SizedBox(
@@ -101,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2,
                   validator: validatorEmail,
                   keyboardType: TextInputType.emailAddress,
                   autofocus: false,
@@ -133,6 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2, 
                   validator: (inputValue) {
                     return validatorPassword(inputValue);
                   },
@@ -199,12 +204,15 @@ class _LoginPageState extends State<LoginPage> {
           height: 50,
           width: 300,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: signAndCreateButtonColor),
+              borderRadius: BorderRadius.circular(20), color: darkColor2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Sign In", style: Theme.of(context).textTheme.bodyText2)
+              Text("Sign In",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .copyWith(color: lightColor))
             ],
           ),
         ),
@@ -238,10 +246,8 @@ class _LoginPageState extends State<LoginPage> {
             },
             child: Text(
               "Create Account",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(decoration: TextDecoration.underline),
+              style: Theme.of(context).textTheme.bodyText2.copyWith(
+                  color: lightColor, decoration: TextDecoration.underline),
             ),
           )
         ],
