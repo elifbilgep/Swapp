@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/Pages/auth/profile.dart';
-import 'package:takas/Pages/categories.dart';
-import 'package:takas/Pages/message/messages.dart';
-import 'package:takas/Pages/swapies/add_swapie.dart';
-import 'package:takas/Pages/swapies/details.dart';
-import 'package:takas/Pages/swapies/search.dart';
-import 'package:takas/const.dart';
-import 'package:takas/lists.dart';
-import 'package:takas/models/swapie.dart';
-import 'package:takas/services/authorization.dart';
-import 'package:takas/services/firestore_service.dart';
+
+import '../const.dart';
+import '../lists.dart';
+import '../models/swapie.dart';
+import '../services/authorization.dart';
+import '../services/firestore_service.dart';
+import 'auth/profile.dart';
+import 'categories.dart';
+import 'message/messages.dart';
+import 'swapies/add_swapie.dart';
+import 'swapies/details.dart';
+import 'swapies/search.dart';
 
 class Home extends StatefulWidget {
   @override

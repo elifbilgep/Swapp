@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:takas/Pages/auth/profile.dart';
-import 'package:takas/const.dart';
-import 'package:takas/models/user.dart';
-import 'package:takas/services/firestore_service.dart';
+
+import '../../const.dart';
+import '../../models/user.dart';
+import '../../services/firestore_service.dart';
+import '../auth/profile.dart';
 
 class Search extends StatefulWidget {
   @override

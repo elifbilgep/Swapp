@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/const.dart';
-import 'package:takas/services/authorization.dart';
-import 'package:takas/services/redirecting.dart';
+
+import 'const.dart';
+import 'services/authorization.dart';
+import 'services/redirecting.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/const.dart';
-import 'package:takas/models/swapie.dart';
-import 'package:takas/services/authorization.dart';
-import 'package:takas/services/firestore_service.dart';
+
+import '../../const.dart';
+import '../../models/swapie.dart';
+import '../../services/authorization.dart';
 
 class MessageDetail extends StatefulWidget {
   @override

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:takas/models/user.dart';
+
+import '../models/user.dart';
 
 class Authorization {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

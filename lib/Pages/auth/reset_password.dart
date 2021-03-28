@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:takas/const.dart';
+
+import '../../const.dart';
 
 class ResetPassword extends StatelessWidget {
   @override

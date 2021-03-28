@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/services/authorization.dart';
-import 'package:takas/models/user.dart';
-import 'package:takas/services/firestore_service.dart';
 
 import '../../const.dart';
+import '../../models/user.dart';
+import '../../services/authorization.dart';
+import '../../services/firestore_service.dart';
 
 class CreateAcc extends StatefulWidget {
   @override

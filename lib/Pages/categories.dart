@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:takas/const.dart';
-import 'package:takas/lists.dart';
 
+import '../const.dart';
 import '../lists.dart';
 
 class Categories extends StatelessWidget {

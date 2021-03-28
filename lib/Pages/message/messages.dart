@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:takas/Pages/message/mesage_detail.dart';
-import 'package:takas/const.dart';
-import 'package:takas/lists.dart';
+
+import '../../const.dart';
+import '../../lists.dart';
 import '../home.dart';
+import 'mesage_detail.dart';
 
 class Messages extends StatelessWidget {
   @override
@@ -61,7 +62,7 @@ class Messages extends StatelessWidget {
     return Container(
       child: Expanded(
         child: ListView.builder(
-            itemCount: 5,
+            itemCount: 8,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 10.0, left: 10),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/Pages/auth/login.dart';
-import 'package:takas/Pages/home.dart';
-import 'package:takas/const.dart';
-import 'package:takas/models/user.dart';
-import 'package:takas/services/authorization.dart';
+
+import '../Pages/auth/login.dart';
+import '../Pages/home.dart';
+import '../const.dart';
+import '../models/user.dart';
+import 'authorization.dart';
 
 class Redirecting extends StatefulWidget {
   @override

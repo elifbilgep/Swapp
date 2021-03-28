@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:takas/Pages/auth/acc_settings.dart';
-import 'package:takas/Pages/message/messages.dart';
-import 'package:takas/const.dart';
-import 'package:takas/models/swapie.dart';
-import 'package:takas/models/user.dart';
-import 'package:takas/services/authorization.dart';
-import 'package:takas/services/firestore_service.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../../const.dart';
+import '../../models/swapie.dart';
+import '../../models/user.dart';
+import '../../services/authorization.dart';
+import '../../services/firestore_service.dart';
+import '../message/messages.dart';
+import 'acc_settings.dart';
 
 class Profile extends StatefulWidget {
   final comingIdFromSearch;

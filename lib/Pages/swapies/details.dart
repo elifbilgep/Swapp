@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:takas/Pages/message/messages.dart';
-import 'package:takas/Pages/swapies/swap_it.dart';
-import 'package:takas/const.dart';
-import 'package:takas/lists.dart';
-import 'package:takas/models/swapie.dart';
-import 'package:takas/services/firestore_service.dart';
+
+import '../../const.dart';
+import '../../lists.dart';
+import '../../models/swapie.dart';
+import '../../services/firestore_service.dart';
+import 'swap_it.dart';
 
 class Details extends StatefulWidget {
   final String categoryName;
@@ -27,7 +27,6 @@ class _DetailsState extends State<Details> {
   @override
   void initState() {
     super.initState();
-
     bringAllSwapies();
     bringOnlyCategoryItems();
   }

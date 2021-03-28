@@ -1,14 +1,15 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
-import 'package:takas/services/authorization.dart';
-import 'package:takas/services/firestore_service.dart';
-import 'package:takas/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:takas/const.dart';
+import 'package:provider/provider.dart';
 
+import '../../const.dart';
 import '../../lists.dart';
+import '../../services/authorization.dart';
+import '../../services/firestore_service.dart';
+import '../../services/storage_service.dart';
 
 class AddSwapie extends StatefulWidget {
   @override

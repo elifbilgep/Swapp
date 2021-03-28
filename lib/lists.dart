@@ -43,9 +43,9 @@ List clothing = [
 
 List mostRecentWatches = [25, 30, 62];
 
-List clothingPrices = ["200-300", "100-200", "50-100", "500-600"];
+List clothingPrices = ["200-300", "100-200", "50-100"];
 
-List clothingCities = ["Muğla", "İzmir", "Ankara", "Bolu"];
+List clothingCities = ["Muğla", "İzmir", "Ankara"];
 
 List messagesPersons = [
   "elifbilge.p",
@@ -55,17 +55,17 @@ List messagesPersons = [
   "x.nezya",
   "tugbayill",
   "erenk35",
-  "beyazdeniz71"
+  "mert_denz"
 ];
 
 List messages = [
   "I will meet you there",
-  "Can you make it 50?",
+  "What is its size?",
   "Where are you in Izmir?",
-  "Is 60 ok?",
+  "How much did u use it?",
   "Hello!!",
   "Can u send another picture?",
-  "Please make it 200",
+  "When did you buy it?",
   "I cant afford that",
 ];
 

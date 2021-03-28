@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:takas/Pages/auth/reset_password.dart';
-import 'package:takas/const.dart';
-import 'package:takas/models/user.dart';
+
+import '../../const.dart';
+import '../../models/user.dart';
+import 'reset_password.dart';
 
 class ProfileSettings extends StatelessWidget {
   final UserDetail profile;
