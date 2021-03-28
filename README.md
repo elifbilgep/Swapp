@@ -17,6 +17,42 @@
         <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Swapp_2.png" alt="">
 </p>
 
+## Screenshots
+
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958947.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958950.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958970.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958972.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958976.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958989.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958992.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958995.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959001.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959220.png" alt="">
+</p>
+<p align="center">
+        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959266.png" alt="">
+</p>
+
 ## Getting Started
 This project is a starting point for a Flutter application.
 
