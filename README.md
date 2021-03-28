@@ -16,6 +16,8 @@
 <p align="center">
         <img height="1127" width="793" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Swapp_2.png" alt="">
 </p>
+ 
+<hr>
 
 ## Description
 
