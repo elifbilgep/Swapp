@@ -37,37 +37,37 @@ flutter run
 ## Screenshots
 
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958947.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958947.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958950.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958950.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958970.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958970.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958972.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958972.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958976.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958976.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958989.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958989.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958992.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958992.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958995.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616958995.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959001.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959001.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959220.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959220.png" alt="">
 </p>
 <p align="center">
-        <img src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959266.png" alt="">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959266.png" alt="">
 </p>
 
 <hr>
