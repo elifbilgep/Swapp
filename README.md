@@ -66,6 +66,12 @@ flutter run
         <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959001.png" alt="">
 </p>
 <p align="center">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/WhatsApp%20Image%202021-03-30%20at%2016.36.32.jpeg" alt="">
+</p>
+<p align="center">
+        <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/WhatsApp%20Image%202021-03-30%20at%2016.36.33.jpeg" alt="">
+</p>
+<p align="center">
         <img height="1110" width="540" src="https://github.com/elifbilgep/Swapp/blob/master/assets/git%20images/Screenshot_1616959220.png" alt="">
 </p>
 <p align="center">
